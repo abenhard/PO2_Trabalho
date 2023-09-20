@@ -1,7 +1,7 @@
 package br.csi.gg_store.model.endereco;
 
-import br.csi.gg_store.model.pessoa.Pessoa;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.csi.gg_store.model.usuario.Usuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,10 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @Table(name ="enderecos")
@@ -27,16 +24,24 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "complemento")
     private String complemento;
 
     @NotBlank
+    @Column(name = "rua")
+    private String rua;
+
+    @NotBlank
+    @Column(name = "bairro")
     private String bairro;
 
+    @NotBlank
     @Size(min = 8, max =9, message = "CEP inválido")
+    @Column(name = "cep")
     private String cep;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(name = "numero", nullable = false)
     private String numero;
 
     @ManyToOne(cascade=CascadeType.PERSIST)
@@ -44,6 +49,6 @@ public class Endereco {
     private Cidade cidade;
 
     @ManyToOne(cascade=CascadeType.PERSIST)
-    @JoinColumn(name = "idPessoa")
-    private Pessoa pessoa;
+    @JoinColumn(name = "idusuario")
+    private Usuario usuario;
 }

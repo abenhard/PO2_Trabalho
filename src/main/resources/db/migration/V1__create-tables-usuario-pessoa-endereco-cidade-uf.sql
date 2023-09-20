@@ -29,4 +29,19 @@ CREATE TABLE enderecos (
     FOREIGN KEY (idcidade) REFERENCES cidades(id),
     FOREIGN KEY (idusuario) REFERENCES usuarios(id)
 );
-
+CREATE TABLE marcas(
+    id serial not null primary key,
+    nome varchar(70) not null
+);
+CREATE TABLE produtos(
+    id serial not null primary key,
+    nome varchar(70) not null,
+    descricao varchar(170) not null,
+    precobase numeric(12,2) not null,
+    idmarca integer not null,
+    FOREIGN KEY (idmarca) REFERENCES marcas(id)
+);
+CREATE table categorias(
+    id serial not null primary key,
+    nome varchar(70) not null
+);

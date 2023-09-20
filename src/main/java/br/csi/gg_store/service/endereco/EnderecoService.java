@@ -27,6 +27,7 @@ public class EnderecoService {
     public Endereco findByCep(String cep){ return this.repository.findByCep(cep).get();}
     public void atualizar(Endereco endereco){
        Endereco enderecoSalvar = this.repository.getReferenceById(endereco.getId());
+        enderecoSalvar.setRua(endereco.getRua());
         enderecoSalvar.setBairro(endereco.getBairro());
         enderecoSalvar.setCep(endereco.getCep());
         enderecoSalvar.setComplemento(endereco.getComplemento());
