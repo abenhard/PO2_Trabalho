@@ -46,6 +46,10 @@ public class Usuario{
     private String nome;
 
     @NotBlank
+    @Column(name = "telefone")
+    private String telefone;
+
+    @NotBlank
     @Size(min = 10, max =11, message = "CPF inválido")
     @Column(name = "cpf")
     private String cpf;

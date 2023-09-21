@@ -14,6 +14,7 @@ create table usuarios(
     senha varchar(100) not null ,
     permissao varchar(20),
     nome varchar(70) not null,
+    telefone archar(70),
     cpf varchar(11) not null unique,
     data_nascimento DATE
   );

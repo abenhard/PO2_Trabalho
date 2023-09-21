@@ -1,5 +1,6 @@
 package br.csi.gg_store.service.usuario;
 
+import br.csi.gg_store.model.endereco.Cidade;
 import br.csi.gg_store.model.usuario.DadosUsuario;
 import br.csi.gg_store.model.usuario.Usuario;
 import br.csi.gg_store.model.usuario.UsuarioRepository;
@@ -20,6 +21,14 @@ public class UsuarioService {
         usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
         this.repository.save(usuario);
         return usuario;
+    }
+    public void atualizar(Usuario usuario){
+        Usuario usuarioAtualizar = this.repository.getReferenceById(usuario.getId());
+        usuarioAtualizar.setNome(usuario.getNome());
+        usuarioAtualizar.setTelefone(usuario.getTelefone());
+        usuarioAtualizar.setCpf(usuario.getCpf());
+        usuarioAtualizar.setDataNascimento(usuario.getDataNascimento());
+        usuarioAtualizar.setSenha(usuario.getSenha());
     }
     public DadosUsuario findUsuario(Long id)
     {
