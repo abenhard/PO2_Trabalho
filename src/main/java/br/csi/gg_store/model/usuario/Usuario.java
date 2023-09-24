@@ -65,7 +65,7 @@ public class Usuario{
     private Set<Endereco> enderecos = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_carrinho")
+    @JoinColumn(name = "idcarrinho")
     @JsonIgnore
     private Carrinho carrinho;
 }

@@ -1,6 +1,7 @@
 package br.csi.gg_store.controller.endereco;
 
 import br.csi.gg_store.model.endereco.Cidade;
+import br.csi.gg_store.model.endereco.CidadeDTO;
 import br.csi.gg_store.model.endereco.UF;
 import br.csi.gg_store.service.endereco.CidadeService;
 import jakarta.transaction.Transactional;
@@ -33,13 +34,19 @@ public class CidadeController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity salvar(@RequestBody @Valid List<Cidade> cidades, UriComponentsBuilder uriBuilder)
+    public ResponseEntity<Void> salvar(@RequestBody @Valid List<CidadeDTO> cidades, UriComponentsBuilder uriBuilder)
     {
-        for (Cidade cidade : cidades) {
-            this.service.salvar(cidade);
+        for (CidadeDTO cidade : cidades) {
+            this.service.salvar(cidade.nome(), cidade.iduf());
         }
-        URI uri = uriBuilder.path("/cidade/{id}").buildAndExpand(cidades.get(0).getId()).toUri();
-        return ResponseEntity.created(uri).body(cidades);
+        if (!cidades.isEmpty()) {
+            URI uri = uriBuilder.path("/cities/{id}")
+                    .buildAndExpand(cidades.get(0).getIduf())
+                    .toUri();
+            return ResponseEntity.created(uri).build();
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
 }

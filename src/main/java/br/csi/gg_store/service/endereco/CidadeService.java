@@ -20,8 +20,12 @@ public class CidadeService {
         this.ufRepository=ufRepository;
     }
 
-    public void salvar(Cidade cidade)
+    public void salvar(String nome, Long iduf)
     {
+        UF uf = ufRepository.getById(iduf);
+        Cidade cidade = new Cidade();
+        cidade.setNome(nome);
+        cidade.setUf(uf);
         this.repository.save(cidade);
     }
 

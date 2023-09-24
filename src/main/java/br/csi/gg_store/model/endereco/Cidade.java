@@ -32,5 +32,6 @@ public class Cidade {
 
     @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "iduf")
+    @JsonIgnore
     private UF uf;
 }

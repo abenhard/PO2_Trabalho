@@ -20,14 +20,5 @@ import java.util.stream.Collectors;
 public class ProdutoController {
     private final ProdutoService service;
     public ProdutoController(ProdutoService service){this.service = service;}
-    @GetMapping("/porCategorias")
-    public ResponseEntity<List<Produto>> getProdutosByCategorias(@RequestParam Set<Long> categoriaIds) {
-        Set<Categoria> categorias = categoriaIds.stream()
-                .map(categoriaId -> new Categoria(categoriaId))
-                .collect(Collectors.toSet());
 
-        List<Produto> products = this.service.getProdutosByCategorias(categorias);
-
-        return ResponseEntity.ok(products);
-    }
 }

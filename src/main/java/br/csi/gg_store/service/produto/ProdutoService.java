@@ -1,6 +1,7 @@
 package br.csi.gg_store.service.produto;
 
 import br.csi.gg_store.model.produto.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,11 +9,12 @@ import java.util.Set;
 
 @Service
 public class ProdutoService {
+
     private final ProdutoRepository repository;
 
     public ProdutoService(ProdutoRepository repository){ this.repository = repository;}
 
-    public void  cadastrar(Produto produto)
+    public void cadastrar(Produto produto)
     {
         this.repository.save(produto);
     }
@@ -20,9 +22,7 @@ public class ProdutoService {
     public List<Produto> listar(){
         return this.repository.findAll();
     }
-    public List<Produto> getProdutosByCategorias(Set<Categoria> categorias) {
-        return this.repository.findByCategorias(categorias);
-    }
+
 
 
     public Produto findById(Long id){

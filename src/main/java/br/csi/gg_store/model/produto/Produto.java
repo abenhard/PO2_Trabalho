@@ -43,6 +43,6 @@ public class Produto {
     private Set<Categoria> categorias = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "carrinho_id")
+    @JoinColumn(name = "carrinhoid")
     private Carrinho carrinho;
 }

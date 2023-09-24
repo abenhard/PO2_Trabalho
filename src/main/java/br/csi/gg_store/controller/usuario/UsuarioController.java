@@ -19,7 +19,7 @@ public class UsuarioController {
     private final UsuarioService service;
     public UsuarioController(UsuarioService service){this.service =service;}
 
-    @PostMapping
+    @PostMapping("/criarUsuario")
     @Transactional
     public ResponseEntity criar(@RequestBody @Valid Usuario usuario, UriComponentsBuilder uriBuilder){
         this.service.cadastrar(usuario);
