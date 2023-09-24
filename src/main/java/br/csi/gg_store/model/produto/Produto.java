@@ -1,6 +1,6 @@
 package br.csi.gg_store.model.produto;
 
-import br.csi.gg_store.model.usuario.Usuario;
+import br.csi.gg_store.model.venda.Carrinho;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name ="produto")
@@ -36,4 +38,11 @@ public class Produto {
     @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idmarca")
     private Marca marca;
+
+    @ManyToMany(mappedBy = "produtos")
+    private Set<Categoria> categorias = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "carrinho_id")
+    private Carrinho carrinho;
 }

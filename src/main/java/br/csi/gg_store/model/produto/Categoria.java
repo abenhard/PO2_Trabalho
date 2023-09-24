@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name ="categorias")
 @Getter
@@ -14,6 +17,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Categoria {
+    public Categoria(Long id){}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,4 +26,12 @@ public class Categoria {
     @NotBlank
     @Column(name = "nome")
     private String nome;
+
+    @ManyToMany
+    @JoinTable(
+            name = "categoria_produto",
+            joinColumns = @JoinColumn(name = "categoria_id"),
+            inverseJoinColumns = @JoinColumn(name = "produto_id")
+    )
+    private Set<Produto> produtos = new HashSet<>();
 }

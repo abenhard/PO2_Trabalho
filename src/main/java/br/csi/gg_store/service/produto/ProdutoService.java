@@ -1,12 +1,10 @@
 package br.csi.gg_store.service.produto;
 
-import br.csi.gg_store.model.produto.Marca;
-import br.csi.gg_store.model.produto.MarcaRepository;
-import br.csi.gg_store.model.produto.Produto;
-import br.csi.gg_store.model.produto.ProdutoRepository;
+import br.csi.gg_store.model.produto.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProdutoService {
@@ -22,6 +20,10 @@ public class ProdutoService {
     public List<Produto> listar(){
         return this.repository.findAll();
     }
+    public List<Produto> getProdutosByCategorias(Set<Categoria> categorias) {
+        return this.repository.findByCategorias(categorias);
+    }
+
 
     public Produto findById(Long id){
         return this.repository.findById(id).get();

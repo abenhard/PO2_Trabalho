@@ -1,5 +1,6 @@
 package br.csi.gg_store.model.usuario;
 
+import br.csi.gg_store.model.venda.Carrinho;
 import br.csi.gg_store.model.endereco.Endereco;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -59,7 +60,12 @@ public class Usuario{
     @Column(name = "data_nascimento")
     private Date dataNascimento;
 
-    @OneToMany(mappedBy = "pessoa")
+    @OneToMany(mappedBy = "usuario")
     @JsonIgnore
     private Set<Endereco> enderecos = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_carrinho")
+    @JsonIgnore
+    private Carrinho carrinho;
 }
