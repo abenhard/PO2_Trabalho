@@ -29,6 +29,6 @@ public class Carrinho {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
     private Set<Produto> produtos = new HashSet<>();
 }

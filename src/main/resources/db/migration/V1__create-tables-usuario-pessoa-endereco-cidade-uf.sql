@@ -6,7 +6,7 @@ create table cidades(
     id serial not null primary key,
     id_uf integer not null,
     nome varchar(100) not null,
-    foreign key (iduf) references ufs(id)
+    foreign key (id_uf) references ufs(id)
 );
 create table usuarios(
     id serial not null primary key,
@@ -14,7 +14,7 @@ create table usuarios(
     senha varchar(100) not null ,
     permissao varchar(20),
     nome varchar(70) not null,
-    telefone archar(70),
+    telefone varchar(70),
     cpf varchar(11) not null unique,
     data_nascimento DATE
   );
@@ -50,7 +50,7 @@ CREATE TABLE produto_categoria(
      id_produto INT NOT NULL,
      id_categoria INT NOT NULL,
      FOREIGN KEY (id_categoria) REFERENCES categorias(id),
-     FOREIGN KEY (id_produto) REFERENCES produtos(id);
+     FOREIGN KEY (id_produto) REFERENCES produtos(id)
 );
 CREATE table carrinhos(
     id serial not null primary key,
@@ -71,8 +71,8 @@ CREATE TABLE vendas(
     id_usuario INT NOT NULL,
     preco_total numeric(12,2) not null,
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('Completo', 'Cancelado', 'Cancelado') NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id);
+    status VARCHAR(15) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 CREATE TABLE produto_venda(
     id serial NOT NULL PRIMARY KEY ,
@@ -80,5 +80,5 @@ CREATE TABLE produto_venda(
     id_produto INT NOT NULL,
     quantidade INT NOT NULL ,
     FOREIGN KEY (id_venda) REFERENCES vendas(id),
-    FOREIGN KEY (id_produto) REFERENCES produtos(id);
+    FOREIGN KEY (id_produto) REFERENCES produtos(id)
 );
