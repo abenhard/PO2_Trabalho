@@ -1,4 +1,4 @@
-package br.csi.gg_store.infra;
+package br.csi.gg_store.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

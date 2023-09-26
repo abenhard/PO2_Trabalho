@@ -25,7 +25,7 @@ public class CidadeController {
     public void printJSon(@RequestBody String json){System.out.println(json);}
 
     @GetMapping
-    public ResponseEntity<List<Cidade>> listar(){
+    public ResponseEntity<List<CidadeDTO>> findAll(){
         return ResponseEntity.ok(this.service.listar());
     }
 

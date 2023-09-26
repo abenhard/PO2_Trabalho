@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UFService {
@@ -42,11 +41,11 @@ public class UFService {
     public UF getOrCreateUf(String nome) {
         List<UF> existingUfs = this.repository.getUFByNome(nome);
         if (!existingUfs.isEmpty()) {
-            return existingUfs.get(0); // Return the existing UF if found
+            return existingUfs.get(0);
         } else {
             UF newUf = new UF();
             newUf.setNome(nome);
-            return this.repository.save(newUf); // Create and return a new UF
+            return this.repository.save(newUf);
         }
     }
 }

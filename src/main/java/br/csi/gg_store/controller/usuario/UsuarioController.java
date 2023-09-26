@@ -19,20 +19,14 @@ public class UsuarioController {
     private final UsuarioService service;
     public UsuarioController(UsuarioService service){this.service =service;}
 
-    @PostMapping("/criarUsuario")
-    @Transactional
-    public ResponseEntity criar(@RequestBody @Valid Usuario usuario, UriComponentsBuilder uriBuilder){
-        this.service.cadastrar(usuario);
-        URI uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).body(usuario);
-    }
     @PostMapping
     @Transactional
     public ResponseEntity salvar(@RequestBody @Valid List<Usuario> usuarios, UriComponentsBuilder uriBuilder)
     {
         ArrayList<Usuario> u = new ArrayList<>();
         for (Usuario usuario : usuarios) {
-            if(this.service.findByLoginOrCpf(usuario.getLogin(), usuario.getCpf())!= null){ continue;}
+            if(this.service.findByLoginOrCpf(usuario.getLogin(), usuario.getCpf())){
+            }
             else {
                 u.add(this.service.cadastrar(usuario));
             }

@@ -1,6 +1,7 @@
 package br.csi.gg_store.model.produto;
 
 import br.csi.gg_store.model.venda.Carrinho;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name ="produto")
+@Table(name ="produtos")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,6 +44,7 @@ public class Produto {
     private Set<Categoria> categorias = new HashSet<>();
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "carrinhoid")
     private Carrinho carrinho;
 }

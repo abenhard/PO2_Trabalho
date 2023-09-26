@@ -57,15 +57,14 @@ public class Usuario{
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "data_nascimento")
+    @Column(name = "datanascimento")
     private Date dataNascimento;
 
     @OneToMany(mappedBy = "usuario")
     @JsonIgnore
     private Set<Endereco> enderecos = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idcarrinho")
+    @OneToMany(mappedBy = "usuarioCarrinho")
     @JsonIgnore
-    private Carrinho carrinho;
+    private Set<Carrinho> carrinho = new HashSet<>();
 }

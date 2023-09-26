@@ -2,6 +2,7 @@ package br.csi.gg_store.controller.endereco;
 
 import br.csi.gg_store.model.endereco.Cidade;
 import br.csi.gg_store.model.endereco.Endereco;
+import br.csi.gg_store.model.endereco.EnderecoDTO;
 import br.csi.gg_store.model.endereco.UF;
 import br.csi.gg_store.service.endereco.EnderecoService;
 import br.csi.gg_store.service.endereco.UFService;
@@ -15,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Endereco")
+@RequestMapping("/endereco")
 public class EnderecoController {
     private final EnderecoService service;
     public EnderecoController(EnderecoService service){this.service = service;}
@@ -27,18 +28,17 @@ public class EnderecoController {
     public Endereco endereco(@PathVariable Long id){ return this.service.findById(id);}
 
     @GetMapping
-    public ResponseEntity<List<Endereco>> listar(){
+    public ResponseEntity<List<EnderecoDTO>> listar(){
         return ResponseEntity.ok(this.service.listar());
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity salvar(@RequestBody @Valid List<Endereco> enderecos, UriComponentsBuilder uriBuilder)
+    public ResponseEntity salvar(@RequestBody @Valid List<EnderecoDTO> enderecosDto, UriComponentsBuilder uriBuilder)
     {
-        for (Endereco endereco : enderecos) {
-            this.service.cadastrar(endereco);
-        }
-        URI uri = uriBuilder.path("/cidade/{id}").buildAndExpand(enderecos.get(0).getId()).toUri();
-        return ResponseEntity.created(uri).body(enderecos);
+         this.service.cadastrar(enderecosDto);
+
+        URI uri = uriBuilder.path("/cidade/{id}").buildAndExpand(enderecosDto.get(0).getId()).toUri();
+        return ResponseEntity.created(uri).body(enderecosDto);
     }
 }

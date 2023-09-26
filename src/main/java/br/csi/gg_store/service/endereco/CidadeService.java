@@ -1,12 +1,11 @@
 package br.csi.gg_store.service.endereco;
 
-import br.csi.gg_store.model.endereco.Cidade;
-import br.csi.gg_store.model.endereco.CidadeRepository;
-import br.csi.gg_store.model.endereco.UF;
-import br.csi.gg_store.model.endereco.UFRepository;
+import br.csi.gg_store.model.endereco.*;
+import br.csi.gg_store.model.usuario.DadosUsuario;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,15 +28,15 @@ public class CidadeService {
         this.repository.save(cidade);
     }
 
-    public List<Cidade> listar(){
-        return this.repository.findAll();
+    public List<CidadeDTO> listar(){
+        return this.repository.findAll().stream().map(CidadeDTO::new).toList();
     }
     public Cidade findById(Long id){
         return this.repository.findById(id).get();
     }
     public Cidade getCidadePorNomeOuUf(String nome, UF uf)
     {
-        return this.repository.getCidadeByNomeOrUf(nome, uf);
+        return this.repository.getCidadeByNomeOrUf(nome, uf).get(0);
     }
     public void atualizar(Cidade cidade){
         Cidade cidadeAtualizar = this.repository.getReferenceById(cidade.getId());
@@ -49,7 +48,7 @@ public class CidadeService {
     }
     @Transactional
     public Cidade getOrCreateCidade(String nome, UF uf) {
-        Optional<Cidade> existingCidade = Optional.ofNullable(this.repository.getCidadeByNomeOrUf(nome, uf));
+        Optional<Cidade> existingCidade = Optional.ofNullable(this.repository.getCidadeByNomeOrUf(nome, uf).get(0));
         if (existingCidade.isPresent()) {
             return existingCidade.get(); // Return the existing Cidade if found
         } else {

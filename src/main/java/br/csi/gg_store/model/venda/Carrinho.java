@@ -25,9 +25,9 @@ public class Carrinho {
 
     private double precoTotal;
 
-    @OneToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name = "idusuario")
+    private Usuario usuarioCarrinho;
 
     @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
     private Set<Produto> produtos = new HashSet<>();

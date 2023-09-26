@@ -1,5 +1,6 @@
 package br.csi.gg_store.model.produto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class Categoria {
     private String nome;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "categoria_produto",
             joinColumns = @JoinColumn(name = "categoriaid"),

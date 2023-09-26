@@ -1,4 +1,4 @@
-package br.csi.gg_store.infra;
+package br.csi.gg_store.infra.exceptions;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

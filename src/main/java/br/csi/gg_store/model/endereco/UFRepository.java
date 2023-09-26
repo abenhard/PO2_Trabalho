@@ -1,6 +1,5 @@
 package br.csi.gg_store.model.endereco;
 
-import br.csi.gg_store.model.usuario.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

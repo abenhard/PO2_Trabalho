@@ -35,11 +35,12 @@ public class UsuarioService {
         Usuario usuario = this.repository.getReferenceById(id);
         return  new DadosUsuario(usuario);
     }
-    public DadosUsuario findByLoginOrCpf(String login, String cpf)
+    public boolean findByLoginOrCpf(String login, String cpf)
     {
         Usuario usuario = this.repository.findByLoginOrCpf(login, cpf);
 
-        return new DadosUsuario(usuario);
+        if(usuario !=null){ return true;}
+        else {return false;}
     }
     public List<DadosUsuario> findAllUsuarios(){
         return this.repository.findAll().stream().map(DadosUsuario::new).toList();
