@@ -64,7 +64,7 @@ public class Usuario{
     @JsonIgnore
     private Set<Endereco> enderecos = new HashSet<>();
 
-    @OneToMany(mappedBy = "usuarioCarrinho")
+    @OneToOne(mappedBy = "usuarioCarrinho")
     @JsonIgnore
-    private Set<Carrinho> carrinho = new HashSet<>();
+    private Carrinho carrinho;
 }

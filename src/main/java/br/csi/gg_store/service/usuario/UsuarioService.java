@@ -45,4 +45,8 @@ public class UsuarioService {
     public List<DadosUsuario> findAllUsuarios(){
         return this.repository.findAll().stream().map(DadosUsuario::new).toList();
     }
+
+    public void excluir(Long id){
+        this.repository.deleteById(id);
+    }
 }

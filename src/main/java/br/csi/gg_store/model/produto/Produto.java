@@ -43,8 +43,8 @@ public class Produto {
     @ManyToMany(mappedBy = "produtos")
     private Set<Categoria> categorias = new HashSet<>();
 
-    @ManyToOne
+    @ManyToMany
     @JsonIgnore
     @JoinColumn(name = "carrinhoid")
-    private Carrinho carrinho;
+    private Set<Carrinho> carrinho = new HashSet<>();
 }

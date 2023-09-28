@@ -25,10 +25,10 @@ public class Carrinho {
 
     private double precoTotal;
 
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @OneToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idusuario")
     private Usuario usuarioCarrinho;
 
-    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
     private Set<Produto> produtos = new HashSet<>();
 }

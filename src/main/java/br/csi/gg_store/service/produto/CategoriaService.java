@@ -27,7 +27,17 @@ public class CategoriaService {
     }
     public List<Categoria> getCategoriaPorNome(String nome)
     {
-        return this.repository.getCategoriaByNome(nome);
+        if(this.repository.getCategoriaByNome(nome).isEmpty())
+        {
+            Categoria categoria = new Categoria();
+            categoria.setNome(nome);
+            this.repository.save(categoria);
+
+            return this.repository.getCategoriaByNome(nome);
+        }
+        else {
+            return this.repository.getCategoriaByNome(nome);
+        }
     }
     public void atualizar(Categoria categoria){
         Categoria categoriaSalvar = this.repository.getReferenceById(categoria.getId());
