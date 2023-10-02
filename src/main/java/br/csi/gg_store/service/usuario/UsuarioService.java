@@ -4,6 +4,8 @@ import br.csi.gg_store.model.endereco.Cidade;
 import br.csi.gg_store.model.usuario.DadosUsuario;
 import br.csi.gg_store.model.usuario.Usuario;
 import br.csi.gg_store.model.usuario.UsuarioRepository;
+import br.csi.gg_store.model.venda.Carrinho;
+import br.csi.gg_store.service.venda.CarrinhoService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +14,20 @@ import java.util.List;
 @Service
 public class UsuarioService {
     private final UsuarioRepository repository;
-
-    public UsuarioService(UsuarioRepository repository){
+    private final CarrinhoService carrinhoService;
+    public UsuarioService(UsuarioRepository repository, CarrinhoService carrinhoService){
         this.repository = repository;
+        this.carrinhoService = carrinhoService;
     }
 
     public Usuario cadastrar(Usuario usuario){
         usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+
+        Carrinho carrinho = new Carrinho();
+        carrinho.setUsuarioCarrinho(usuario);
+        carrinho.setPrecoTotal(0.0);
         this.repository.save(usuario);
+        carrinhoService.cadastrar(carrinho);
         return usuario;
     }
     public void atualizar(Usuario usuario){

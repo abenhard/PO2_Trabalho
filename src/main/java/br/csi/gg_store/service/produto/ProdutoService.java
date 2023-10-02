@@ -3,7 +3,6 @@ package br.csi.gg_store.service.produto;
 import br.csi.gg_store.model.produto.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,12 +11,12 @@ import java.util.Set;
 public class ProdutoService {
 
     private final ProdutoRepository repository;
-    private final MarcaRepository marcaRepository;
+    private final MarcaService marcaService;
     private final CategoriaService categoriaService;
 
-    public ProdutoService(ProdutoRepository repository, MarcaRepository marcaRepository, CategoriaService categoriaService){
+    public ProdutoService(ProdutoRepository repository, MarcaService marcaService, CategoriaService categoriaService){
         this.repository = repository;
-        this.marcaRepository = marcaRepository;
+        this.marcaService = marcaService;
         this.categoriaService = categoriaService;
     }
 
@@ -29,9 +28,7 @@ public class ProdutoService {
             produto.setNome(produtoDTO.getNome());
             produto.setDescricao(produtoDTO.getDescricao());
             produto.setPrecoBase(produtoDTO.getPrecoBase());
-
-            Marca marca = marcaRepository.getMarcaByNome(produtoDTO.getMarca()).get(0);
-
+            Marca marca = marcaService.getMarcaPorNome(produtoDTO.getMarca());
             produto.setMarca(marca);
 
             Set<Categoria> categorias = new HashSet<>();

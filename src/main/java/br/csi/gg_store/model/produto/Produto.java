@@ -44,7 +44,10 @@ public class Produto {
     private Set<Categoria> categorias = new HashSet<>();
 
     @ManyToMany
-    @JsonIgnore
-    @JoinColumn(name = "carrinhoid")
+    @JoinTable(
+            name = "produto_carrinho",
+            joinColumns = @JoinColumn(name = "idproduto"),
+            inverseJoinColumns = @JoinColumn(name = "idcarrinho")
+    )
     private Set<Carrinho> carrinho = new HashSet<>();
 }

@@ -25,9 +25,9 @@ public class MarcaService {
     public Marca findById(Long id){
         return this.repository.findById(id).get();
     }
-    public List<Marca> getMarcaPorNome(String nome)
+    public Marca getMarcaPorNome(String nome)
     {
-        return this.repository.getMarcaByNome(nome);
+        return this.repository.findMarcaByNomeContaining(nome);
     }
     public void atualizar(Marca marca){
        Marca marcaSalvar = this.repository.getReferenceById(marca.getId());

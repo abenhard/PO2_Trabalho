@@ -23,6 +23,7 @@ public class Carrinho {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="precototal")
     private double precoTotal;
 
     @OneToOne(cascade=CascadeType.PERSIST)
