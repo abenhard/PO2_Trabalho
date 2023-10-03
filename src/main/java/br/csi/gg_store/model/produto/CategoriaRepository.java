@@ -10,7 +10,7 @@ import java.util.Set;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     public Categoria getById(Long id);
-    public List<Categoria> getCategoriaByNome(String nome);
+    public Categoria getCategoriaByNome(String nome);
 
     public Optional<Categoria> findById(Long id);
 }

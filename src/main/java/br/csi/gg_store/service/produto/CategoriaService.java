@@ -25,15 +25,15 @@ public class CategoriaService {
     public Categoria findById(Long id){
         return this.repository.findById(id).get();
     }
-    public List<Categoria> getCategoriaPorNome(String nome)
+    public Categoria getCategoriaPorNome(String nome)
     {
-        if(this.repository.getCategoriaByNome(nome).isEmpty())
+        if(this.repository.getCategoriaByNome(nome)==null)
         {
             Categoria categoria = new Categoria();
             categoria.setNome(nome);
             this.repository.save(categoria);
 
-            return this.repository.getCategoriaByNome(nome);
+            return categoria;
         }
         else {
             return this.repository.getCategoriaByNome(nome);

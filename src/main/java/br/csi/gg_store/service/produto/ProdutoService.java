@@ -34,17 +34,14 @@ public class ProdutoService {
             Set<Categoria> categorias = new HashSet<>();
 
             for (String categoria : produtoDTO.getCategorias()) {
-                categorias.add(categoriaService.getCategoriaPorNome(categoria).get(0));
+                categorias.add(categoriaService.getCategoriaPorNome(categoria));
+            }
+            for(Categoria categoria: categorias)
+            {
+                Set<Produto> produtos = categoria.getProdutos();
+                produtos.add(produto);
             }
             produto.setCategorias(categorias);
-
-            Set<Produto> produtos = new HashSet<>();
-            produtos.add(produto);
-
-            for (Categoria categoria : categorias) {
-                categoria.setProdutos(produtos);
-            }
-
 
             this.repository.save(produto);
         }

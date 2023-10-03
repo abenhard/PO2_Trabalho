@@ -1,6 +1,5 @@
 package br.csi.gg_store.service.usuario;
 
-import br.csi.gg_store.model.endereco.Cidade;
 import br.csi.gg_store.model.usuario.DadosUsuario;
 import br.csi.gg_store.model.usuario.Usuario;
 import br.csi.gg_store.model.usuario.UsuarioRepository;
@@ -43,12 +42,12 @@ public class UsuarioService {
         Usuario usuario = this.repository.getReferenceById(id);
         return  new DadosUsuario(usuario);
     }
-    public boolean findByLoginOrCpf(String login, String cpf)
+    public Usuario findByLogin(String login)
     {
-        Usuario usuario = this.repository.findByLoginOrCpf(login, cpf);
+        Usuario usuario = this.repository.findByLogin(login);
 
-        if(usuario !=null){ return true;}
-        else {return false;}
+        if(usuario !=null){ return usuario;}
+        else {return null;}
     }
     public List<DadosUsuario> findAllUsuarios(){
         return this.repository.findAll().stream().map(DadosUsuario::new).toList();

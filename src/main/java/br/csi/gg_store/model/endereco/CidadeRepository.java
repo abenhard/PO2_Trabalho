@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface CidadeRepository extends JpaRepository<Cidade, Long> {
     public Cidade getById(Long id);
-    public List<Cidade> getCidadeByNomeOrUf(String nome, UF uf);
+    public Cidade getCidadeByNomeOrUf(String nome, UF uf);
     public Optional<Cidade> findById(Long id);
 }

@@ -25,7 +25,7 @@ public class UFService {
     public UF findById(Long id){
         return this.repository.findById(id).get();
     }
-    public List<UF> getUfPorNome(String nome)
+    public UF getUfPorNome(String nome)
     {
         return this.repository.getUFByNome(nome);
     }
@@ -39,13 +39,13 @@ public class UFService {
 
     @Transactional
     public UF getOrCreateUf(String nome) {
-        List<UF> existingUfs = this.repository.getUFByNome(nome);
-        if (!existingUfs.isEmpty()) {
-            return existingUfs.get(0);
+        UF uf = this.repository.getUFByNome(nome);
+        if (uf!=null) {
+            return uf;
         } else {
-            UF newUf = new UF();
-            newUf.setNome(nome);
-            return this.repository.save(newUf);
+            UF novaUf = new UF();
+            novaUf.setNome(nome);
+            return this.repository.save(novaUf);
         }
     }
 }

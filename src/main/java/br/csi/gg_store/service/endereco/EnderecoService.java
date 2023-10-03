@@ -2,7 +2,7 @@ package br.csi.gg_store.service.endereco;
 
 import br.csi.gg_store.model.endereco.*;
 import br.csi.gg_store.model.usuario.Usuario;
-import br.csi.gg_store.model.usuario.UsuarioRepository;
+import br.csi.gg_store.service.usuario.UsuarioService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,15 +11,15 @@ import java.util.List;
 @Service
 public class EnderecoService {
     private final EnderecoRepository repository;
-    private final UsuarioRepository usuarioRepository;
-    private final CidadeRepository cidadeRepository;
-    private final UFRepository ufRepository;
+    private final UsuarioService usuarioService;
+    private final CidadeService cidadeService;
+    private final UFService ufService;
 
-    public EnderecoService(EnderecoRepository repository, CidadeRepository cidadeRepository, UFRepository ufRepository, UsuarioRepository usuarioRepository){
+    public EnderecoService(EnderecoRepository repository, CidadeService cidadeService, UFService ufRepository, UsuarioService usuarioService){
         this.repository = repository;
-        this.cidadeRepository = cidadeRepository;
-        this.ufRepository = ufRepository;
-        this.usuarioRepository = usuarioRepository;
+        this.cidadeService = cidadeService;
+        this.ufService = ufRepository;
+        this.usuarioService = usuarioService;
     }
 
     public void cadastrar(List<EnderecoDTO> enderecoDTOs)
@@ -34,10 +34,10 @@ public class EnderecoService {
             endereco.setNumero(enderecoDTO.getNumero());
 
 
-            UF uf =  ufRepository.getUFByNome(enderecoDTO.getUf()).get(0);
-            endereco.setCidade(cidadeRepository.getCidadeByNomeOrUf(enderecoDTO.getCidade(), uf).get(0));
+            UF uf =  ufService.getUfPorNome(enderecoDTO.getUf());
+            endereco.setCidade(cidadeService.getOrCreateCidade(enderecoDTO.getCidade(), uf));
 
-            Usuario usuario = usuarioRepository.findByLogin(enderecoDTO.getLogin());
+            Usuario usuario = usuarioService.findByLogin(enderecoDTO.getLogin());
             endereco.setUsuario(usuario);
 
             this.repository.save(endereco);

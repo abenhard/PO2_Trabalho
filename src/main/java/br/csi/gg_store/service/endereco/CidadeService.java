@@ -36,7 +36,7 @@ public class CidadeService {
     }
     public Cidade getCidadePorNomeOuUf(String nome, UF uf)
     {
-        return this.repository.getCidadeByNomeOrUf(nome, uf).get(0);
+        return this.repository.getCidadeByNomeOrUf(nome, uf);
     }
     public void atualizar(Cidade cidade){
         Cidade cidadeAtualizar = this.repository.getReferenceById(cidade.getId());
@@ -48,7 +48,7 @@ public class CidadeService {
     }
     @Transactional
     public Cidade getOrCreateCidade(String nome, UF uf) {
-        Optional<Cidade> existingCidade = Optional.ofNullable(this.repository.getCidadeByNomeOrUf(nome, uf).get(0));
+        Optional<Cidade> existingCidade = Optional.ofNullable(this.repository.getCidadeByNomeOrUf(nome, uf));
         if (existingCidade.isPresent()) {
             return existingCidade.get(); // Return the existing Cidade if found
         } else {

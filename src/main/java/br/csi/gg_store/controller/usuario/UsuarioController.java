@@ -25,7 +25,7 @@ public class UsuarioController {
     {
         ArrayList<Usuario> u = new ArrayList<>();
         for (Usuario usuario : usuarios) {
-            if(this.service.findByLoginOrCpf(usuario.getLogin(), usuario.getCpf())){
+            if(this.service.findByLogin(usuario.getLogin())!=null){
             }
             else {
                 u.add(this.service.cadastrar(usuario));
