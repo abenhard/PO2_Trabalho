@@ -3,6 +3,7 @@ package br.csi.gg_store.controller.endereco;
 import br.csi.gg_store.model.endereco.Cidade;
 import br.csi.gg_store.model.endereco.CidadeDTO;
 import br.csi.gg_store.model.endereco.UF;
+import br.csi.gg_store.model.produto.Produto;
 import br.csi.gg_store.service.endereco.CidadeService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -34,19 +35,35 @@ public class CidadeController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Void> salvar(@RequestBody @Valid List<CidadeDTO> cidades, UriComponentsBuilder uriBuilder)
+    public ResponseEntity salvar(@RequestBody @Valid List<CidadeDTO> cidades, UriComponentsBuilder uriBuilder)
     {
         for (CidadeDTO cidade : cidades) {
             this.service.salvar(cidade.nome(), cidade.iduf());
         }
-        if (!cidades.isEmpty()) {
-            URI uri = uriBuilder.path("/cities/{id}")
-                    .buildAndExpand(cidades.get(0).getIduf())
-                    .toUri();
-            return ResponseEntity.created(uri).build();
-        } else {
-            return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid Cidade cidade){
+        try {
+            this.service.atualizar(cidade);
+            return ResponseEntity.ok().body(cidade);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body("Falha ao atualizar Cidade");
         }
     }
-
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletar(@PathVariable Long id){
+        try {
+            this.service.excluir(id);
+            return ResponseEntity.ok().body("Cidade Deletada com Sucesso");
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

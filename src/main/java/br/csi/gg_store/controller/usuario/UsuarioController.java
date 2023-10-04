@@ -41,4 +41,30 @@ public class UsuarioController {
     public List<DadosUsuario> findAll(){
         return this.service.findAllUsuarios();
     }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid Usuario usuario){
+        try {
+            this.service.atualizar(usuario);
+            return ResponseEntity.ok().body(usuario);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body("Falha ao atualizar Usuario");
+        }
+    }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletar(@PathVariable Long id){
+        try {
+            this.service.excluir(id);
+            return ResponseEntity.ok().body("Usuario Deletado com Sucesso");
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -30,7 +31,8 @@ public class CarrinhoController {
         URI uri = uriBuilder.path("/carrinho/{id}").buildAndExpand().toUri();
         return ResponseEntity.created(uri).body(carrinho.getId());
     }
-
+    @GetMapping
+    public List<Carrinho> findAll(){return  this.service.findAll();}
     @GetMapping("/{id}")
-    public Optional<Carrinho> findAll(@PathVariable Long id){ return this.service.findCarrinho(id);}
+    public Optional<Carrinho> findCarrinho(@PathVariable Long id){ return this.service.findCarrinho(id);}
 }

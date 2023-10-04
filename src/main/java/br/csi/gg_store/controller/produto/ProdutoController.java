@@ -2,6 +2,7 @@ package br.csi.gg_store.controller.produto;
 
 
 
+import br.csi.gg_store.model.produto.Categoria;
 import br.csi.gg_store.model.produto.Marca;
 import br.csi.gg_store.model.produto.Produto;
 
@@ -40,5 +41,29 @@ public class ProdutoController {
         this.service.cadastrar(produtos);
         URI uri = uriBuilder.path("/uf/{id}").buildAndExpand(produtos.get(0).getId()).toUri();
         return ResponseEntity.created(uri).body(produtos);
+    }
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid Produto produto){
+        try {
+            this.service.atualizar(produto);
+            return ResponseEntity.ok().body(produto);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body("Falha ao atualizar Produto");
+        }
+    }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletar(@PathVariable Long id){
+        try {
+            this.service.excluir(id);
+            return ResponseEntity.ok().body("Produto Deletado com Sucesso");
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

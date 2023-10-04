@@ -2,6 +2,7 @@ package br.csi.gg_store.controller.produto;
 
 
 import br.csi.gg_store.model.produto.Marca;
+import br.csi.gg_store.model.usuario.Usuario;
 import br.csi.gg_store.service.produto.MarcaService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -41,5 +42,29 @@ public class MarcaController {
         }
         URI uri = uriBuilder.path("/uf/{id}").buildAndExpand(marcas.get(0).getId()).toUri();
         return ResponseEntity.created(uri).body(marcas);
+    }
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid Marca marca){
+        try {
+            this.service.atualizar(marca);
+            return ResponseEntity.ok().body(marca);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body("Falha ao atualizar Marca");
+        }
+    }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletar(@PathVariable Long id){
+        try {
+            this.service.excluir(id);
+            return ResponseEntity.ok().body("Marca Deletada com Sucesso");
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

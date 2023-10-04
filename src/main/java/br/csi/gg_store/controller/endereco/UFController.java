@@ -1,6 +1,7 @@
 package br.csi.gg_store.controller.endereco;
 
 
+import br.csi.gg_store.model.endereco.Cidade;
 import br.csi.gg_store.model.endereco.UF;
 
 import br.csi.gg_store.service.endereco.UFService;
@@ -42,5 +43,28 @@ public class UFController {
         URI uri = uriBuilder.path("/uf/{id}").buildAndExpand(ufs.get(0).getId()).toUri();
         return ResponseEntity.created(uri).body(ufs);
     }
-
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid UF uf){
+        try {
+            this.service.atualizar(uf);
+            return ResponseEntity.ok().body(uf);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body("Falha ao atualizar UF");
+        }
+    }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletar(@PathVariable Long id){
+        try {
+            this.service.excluir(id);
+            return ResponseEntity.ok().body("UF Deletada com Sucesso");
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

@@ -78,4 +78,5 @@ public class EnderecoService {
     public void excluir(Long id){
         this.repository.deleteById(id);
     }
+    public void excluirPorUsuario(Usuario usuario){this.repository.deleteByUsuario(usuario);}
 }
