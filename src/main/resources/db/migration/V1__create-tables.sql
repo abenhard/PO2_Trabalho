@@ -26,7 +26,7 @@ CREATE TABLE enderecos (
     cep varchar(9) NOT NULL,
     numero varchar(15) NOT NULL,
     idcidade integer NOT NULL,
-    idusuario integer,
+    idusuario integer NOT NULL,
     FOREIGN KEY (idcidade) REFERENCES cidades(id),
     FOREIGN KEY (idusuario) REFERENCES usuarios(id)
 );
@@ -64,6 +64,7 @@ CREATE TABLE produto_carrinho(
     idcarrinho INT NOT NULL,
     idproduto INT NOT NULL,
     quantidade INT NOT NULL,
+    version BIGINT DEFAULT 0,
     FOREIGN KEY (idcarrinho) REFERENCES carrinhos(id),
     FOREIGN KEY (idproduto) REFERENCES produtos(id)
 );

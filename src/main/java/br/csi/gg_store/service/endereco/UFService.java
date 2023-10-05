@@ -37,15 +37,4 @@ public class UFService {
         this.repository.deleteById(id);
     }
 
-    @Transactional
-    public UF getOrCreateUf(String nome) {
-        UF uf = this.repository.getUFByNome(nome);
-        if (uf!=null) {
-            return uf;
-        } else {
-            UF novaUf = new UF();
-            novaUf.setNome(nome);
-            return this.repository.save(novaUf);
-        }
-    }
 }

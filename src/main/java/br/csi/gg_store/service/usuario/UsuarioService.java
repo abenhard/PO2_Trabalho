@@ -11,6 +11,7 @@ import br.csi.gg_store.service.venda.CarrinhoService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class UsuarioService {
 
         Carrinho carrinho = new Carrinho();
         carrinho.setUsuarioCarrinho(usuario);
-        carrinho.setPrecoTotal(0.0);
+        carrinho.setPrecoTotal(BigDecimal.valueOf(0));
         this.repository.save(usuario);
         carrinhoRepository.save(carrinho);
         return usuario;

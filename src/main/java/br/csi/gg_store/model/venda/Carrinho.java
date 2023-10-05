@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,12 +25,17 @@ public class Carrinho {
     private Long id;
 
     @Column(name="precototal")
-    private double precoTotal;
+    private BigDecimal precoTotal;
 
     @OneToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idusuario")
     private Usuario usuarioCarrinho;
 
-    @ManyToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
-    private Set<Produto> produtos = new HashSet<>();
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "produto_carrinho",
+            joinColumns = @JoinColumn(name = "idcarrinho"),
+            inverseJoinColumns = @JoinColumn(name = "idproduto")
+    )
+    private Set<Produto_Carrinho> produtosCarrinho = new HashSet<>();
 }
