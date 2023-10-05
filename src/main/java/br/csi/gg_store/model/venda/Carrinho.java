@@ -2,6 +2,7 @@ package br.csi.gg_store.model.venda;
 
 import br.csi.gg_store.model.produto.Produto;
 import br.csi.gg_store.model.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,11 +32,7 @@ public class Carrinho {
     @JoinColumn(name = "idusuario")
     private Usuario usuarioCarrinho;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(
-            name = "produto_carrinho",
-            joinColumns = @JoinColumn(name = "idcarrinho"),
-            inverseJoinColumns = @JoinColumn(name = "idproduto")
-    )
+    @OneToMany(mappedBy = "carrinho")
+    @JsonIgnore
     private Set<Produto_Carrinho> produtosCarrinho = new HashSet<>();
 }

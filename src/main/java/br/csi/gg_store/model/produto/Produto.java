@@ -37,11 +37,11 @@ public class Produto {
     @Column(name="precobase")
     private BigDecimal precoBase;
 
-    @ManyToOne(cascade = CascadeType.PERSIST) // Ajuste o cascade type conforme sua necessidade
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idmarca")
     private Marca marca;
 
-    @OneToMany(mappedBy = "produto") // Correção: mapeamento corrigido para 'produtosCarrinho'
+    @OneToMany(mappedBy = "produto")
     @JsonIgnore
     private Set<Produto_Carrinho> produtosCarrinho = new HashSet<>();
 

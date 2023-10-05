@@ -22,19 +22,17 @@ public class Produto_Carrinho {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "idproduto")
     private Produto produto;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "idcarrinho")
     private Carrinho carrinho;
 
     @Column(name = "quantidade", nullable = false)
     @NotNull
-    @Min(value = 0, message = "Quantity must be greater than or equal to 0")
+    @Min(value = 1, message = "Quantidade deve ser maior ou iqual 1")
     private Integer quantidade = 0;
 
-    @Version
-    private Long version;
 }

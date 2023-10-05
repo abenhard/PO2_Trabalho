@@ -31,8 +31,14 @@ public class CarrinhoController {
 
     @PostMapping("/adicionarProduto")
     public ResponseEntity<String> adicionarProdutoAoCarrinho(@RequestBody @Valid Produto_CarrinhoDTO produtoCarrinhoDTO) {
-        this.service.adicionarProdutoAoCarrinho(produtoCarrinhoDTO);
-        return ResponseEntity.ok("Produto adicionado ao carrinho com sucesso.");
+        if(produtoCarrinhoDTO.getQuantidade()<=0)
+        {
+            return ResponseEntity.ok("Quantidade do Produto deve ser maior que 0.");
+        }
+        else {
+            this.service.adicionarProdutoAoCarrinho(produtoCarrinhoDTO);
+            return ResponseEntity.ok("Produto adicionado ao carrinho com sucesso.");
+        }
     }
 
     @DeleteMapping("/removerProduto")

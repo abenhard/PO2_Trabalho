@@ -83,7 +83,7 @@ public class CarrinhoService {
         Produto produto = this.produtoRepository.findById(produtoCarrinhoDTO.getIdProduto())
                 .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
 
-        Produto_Carrinho produtoCarrinho = produtoCarrinhoRepository
+        Produto_Carrinho produtoCarrinho = this.produtoCarrinhoRepository
                 .findProduto_CarrinhoByCarrinhoIdAndProdutoId(produtoCarrinhoDTO.getIdCarrinho(), produtoCarrinhoDTO.getIdProduto())
                 .orElse(null);
         if (produtoCarrinho == null) {
@@ -95,7 +95,7 @@ public class CarrinhoService {
             produtoCarrinho.setQuantidade(produtoCarrinho.getQuantidade() + produtoCarrinhoDTO.getQuantidade());
         }
 
-        produtoCarrinhoRepository.save(produtoCarrinho);
+        this.produtoCarrinhoRepository.save(produtoCarrinho);
 
         // Atualizar o preço total do carrinho após adicionar um produto.
         BigDecimal precoTotal = carrinho.getProdutosCarrinho().stream()
@@ -103,36 +103,40 @@ public class CarrinhoService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         carrinho.setPrecoTotal(precoTotal);
 
-        repository.save(carrinho);
+        this.repository.save(carrinho);
     }
     @Transactional
     public void removerProdutoDoCarrinho(Produto_CarrinhoDTO produtoCarrinhoDTO) {
         try {
             Carrinho carrinho = this.repository.findById(produtoCarrinhoDTO.getIdCarrinho())
                     .orElseThrow(() -> new CarrinhoNotFoundException("Carrinho não encontrado"));
-
+            Produto produto = this.produtoRepository.findById(produtoCarrinhoDTO.getIdProduto())
+                    .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
             Produto_Carrinho produtoCarrinho = produtoCarrinhoRepository
                     .findProduto_CarrinhoByCarrinhoIdAndProdutoId(produtoCarrinhoDTO.getIdCarrinho(), produtoCarrinhoDTO.getIdProduto())
                     .orElseThrow(() -> new ProdutoNotFoundException("Produto no carrinho não encontrado"));
 
             int quantidadeRemover = produtoCarrinhoDTO.getQuantidade();
 
-            if (quantidadeRemover >= produtoCarrinho.getQuantidade()) {
-                // Remove the product completely from the carrinho
+            int novaQuantidade = Math.max(produtoCarrinho.getQuantidade() - quantidadeRemover, 0);
+
+
+            if (novaQuantidade>0) {
+                produtoCarrinho.setQuantidade(novaQuantidade);
+                this.produtoCarrinhoRepository.save(produtoCarrinho);
+
+            } else {
                 carrinho.getProdutosCarrinho().remove(produtoCarrinho);
-                produtoCarrinho.setCarrinho(null); // Remove the reference to carrinho
-                produtoCarrinhoRepository.delete(produtoCarrinho);
-            } else if (quantidadeRemover > 0) {
-                // Update the quantity of the product in the carrinho
-                produtoCarrinho.setQuantidade(produtoCarrinho.getQuantidade() - quantidadeRemover);
-                produtoCarrinho.setVersion(produtoCarrinho.getVersion() + 1); // Increment version
-                produtoCarrinhoRepository.save(produtoCarrinho);
+                produto.getProdutosCarrinho().remove(produtoCarrinho);
+                this.repository.save(carrinho);  // Update the carrinho to remove the produtoCarrinho reference
+                this.produtoRepository.save(produto);
+                this.produtoCarrinhoRepository.delete(produtoCarrinho);
             }
 
             // Update total price
             carrinho.setPrecoTotal(calculateTotalPrice(carrinho));
 
-            repository.save(carrinho);
+
         } catch (OptimisticLockException e) {
             e.printStackTrace();
             // Handle the exception, log it, or perform necessary actions
