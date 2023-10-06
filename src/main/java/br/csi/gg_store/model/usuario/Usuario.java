@@ -1,6 +1,6 @@
 package br.csi.gg_store.model.usuario;
 
-import br.csi.gg_store.model.venda.Carrinho;
+import br.csi.gg_store.model.venda.carrinho.Carrinho;
 import br.csi.gg_store.model.endereco.Endereco;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

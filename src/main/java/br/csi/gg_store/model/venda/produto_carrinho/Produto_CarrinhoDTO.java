@@ -1,4 +1,4 @@
-package br.csi.gg_store.model.venda;
+package br.csi.gg_store.model.venda.produto_carrinho;
 
 
 import lombok.Getter;

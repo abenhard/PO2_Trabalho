@@ -1,4 +1,4 @@
-package br.csi.gg_store.model.venda;
+package br.csi.gg_store.model.venda.carrinho;
 
 import br.csi.gg_store.model.produto.Produto;
 import br.csi.gg_store.model.produto.ProdutoDTO;

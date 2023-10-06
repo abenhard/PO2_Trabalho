@@ -1,10 +1,9 @@
-package br.csi.gg_store.model.venda;
+package br.csi.gg_store.model.venda.produto_carrinho;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository

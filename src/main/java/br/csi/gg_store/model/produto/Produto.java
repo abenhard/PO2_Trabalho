@@ -1,7 +1,6 @@
 package br.csi.gg_store.model.produto;
 
-import br.csi.gg_store.model.venda.Carrinho;
-import br.csi.gg_store.model.venda.Produto_Carrinho;
+import br.csi.gg_store.model.venda.produto_carrinho.Produto_Carrinho;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

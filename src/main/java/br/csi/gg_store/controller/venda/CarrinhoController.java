@@ -1,17 +1,13 @@
 package br.csi.gg_store.controller.venda;
 
-import br.csi.gg_store.model.venda.Carrinho;
-import br.csi.gg_store.model.venda.CarrinhoDTO;
-import br.csi.gg_store.model.venda.Produto_CarrinhoDTO;
-import br.csi.gg_store.model.venda.Produto_Carrinho;
+import br.csi.gg_store.model.venda.carrinho.CarrinhoDTO;
+import br.csi.gg_store.model.venda.produto_carrinho.Produto_CarrinhoDTO;
 import br.csi.gg_store.service.venda.CarrinhoService;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController

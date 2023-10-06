@@ -55,7 +55,6 @@ CREATE TABLE produto_categoria(
 CREATE table carrinhos(
     id serial not null primary key,
     idusuario INT NOT NULL,
-    datacriacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     precototal numeric(12,2) not null,
     FOREIGN KEY (idusuario) REFERENCES usuarios(id)
 );
@@ -64,17 +63,18 @@ CREATE TABLE produto_carrinho(
     idcarrinho INT NOT NULL,
     idproduto INT NOT NULL,
     quantidade INT NOT NULL,
-    version BIGINT DEFAULT 0,
     FOREIGN KEY (idcarrinho) REFERENCES carrinhos(id),
     FOREIGN KEY (idproduto) REFERENCES produtos(id)
 );
 CREATE TABLE vendas(
     id serial not null primary key,
     idusuario INT NOT NULL,
+    idendereco INT NOT NULL,
     precototal numeric(12,2) not null,
     datacriacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(15) NOT NULL,
-    FOREIGN KEY (idusuario) REFERENCES usuarios(id)
+    FOREIGN KEY (idusuario) REFERENCES usuarios(id),
+    FOREIGN KEY (idendereco) REFERENCES enderecos(id)
 );
 CREATE TABLE produto_venda(
     id serial NOT NULL PRIMARY KEY ,

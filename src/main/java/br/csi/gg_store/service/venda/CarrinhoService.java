@@ -2,18 +2,20 @@ package br.csi.gg_store.service.venda;
 
 import br.csi.gg_store.infra.exceptions.CarrinhoNotFoundException;
 import br.csi.gg_store.infra.exceptions.ProdutoNotFoundException;
-import br.csi.gg_store.infra.exceptions.QuantidadeInvalidaException;
 import br.csi.gg_store.model.produto.*;
-import br.csi.gg_store.model.venda.*;
+import br.csi.gg_store.model.venda.carrinho.Carrinho;
+import br.csi.gg_store.model.venda.carrinho.CarrinhoDTO;
+import br.csi.gg_store.model.venda.carrinho.CarrinhoRepository;
+import br.csi.gg_store.model.venda.produto_carrinho.Produto_Carrinho;
+import br.csi.gg_store.model.venda.produto_carrinho.Produto_CarrinhoDTO;
+import br.csi.gg_store.model.venda.produto_carrinho.Produto_CarrinhoRepository;
 import jakarta.persistence.OptimisticLockException;
-import org.hibernate.annotations.OptimisticLocking;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
