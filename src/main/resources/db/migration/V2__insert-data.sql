@@ -41,34 +41,6 @@ INSERT INTO cidades (iduf, nome) VALUES
                                      (13, 'Juiz de Fora'),
                                      (13, 'Betim');
 
-INSERT INTO usuarios (login, senha, permissao, nome, telefone, cpf, datanascimento) VALUES
-          ('abf@gmail.com', '1234', 'ROLE_ADMIN', 'Alex Benhard Ferreira', '55991425592', '02884551345', '1990-03-21'),
-          ('sarahjackson@gmail.com', 'sarahpass', 'ROLE_USER', 'Sarah Jackson', '5599333777', '11223344556', '1993-05-14'),
-          ('danielbrown@gmail.com', 'danielpass', 'ROLE_USER', 'Daniel Brown', '5599888877', '99887766554', '1981-01-19'),
-          ('oliviawilson@gmail.com', 'oliviapass', 'ROLE_USER', 'Olivia Wilson', '5599111122', '99886655447', '1988-07-23'),
-          ('robertthomas@gmail.com', 'robertpass', 'ROLE_USER', 'Robert Thomas', '5599222211', '99885566742', '1972-04-15');
--- Inserir carrinhos para os usuários com ID específico
-INSERT INTO carrinhos (idusuario, datacriacao, precototal) VALUES
-                                                               (1, current_timestamp, 0.00), -- Carrinho para Alex Benhard Ferreira
-                                                               (2, current_timestamp, 0.00), -- Carrinho para Sarah Jackson
-                                                               (3, current_timestamp, 0.00), -- Carrinho para Daniel Brown
-                                                               (4, current_timestamp, 0.00), -- Carrinho para Olivia Wilson
-                                                               (5, current_timestamp, 0.00); -- Carrinho para Robert Thomas
-
--- Inserir endereços para o usuário com ID 1 (abf@gmail.com)
-INSERT INTO enderecos (complemento, bairro, rua, cep, numero, idcidade, idusuario) VALUES ('Apto 101', 'Centro', 'Rua Principal', '12345-678', '123', 1, 1);
-
--- Inserir endereços para o usuário com ID 2 (sarahjackson@gmail.com)
-INSERT INTO enderecos (complemento, bairro, rua, cep, numero, idcidade, idusuario) VALUES ('Casa 2', 'Bairro Novo', 'Rua da Paz', '54321-987', '456', 2, 2);
-
--- Inserir endereços para o usuário com ID 3 (danielbrown@gmail.com)
-INSERT INTO enderecos (complemento, bairro, rua, cep, numero, idcidade, idusuario) VALUES ('Sala 303', 'Centro', 'Avenida Principal', '67890-321', '789', 3, 3);
-
--- Inserir endereços para o usuário com ID 4 (oliviawilson@gmail.com)
-INSERT INTO enderecos (complemento, bairro, rua, cep, numero, idcidade, idusuario) VALUES ('Casa 1', 'Bairro Sul', 'Rua do Sol', '13579-246', '246', 4, 4);
-
--- Inserir endereços para o usuário com ID 5 (robertthomas@gmail.com)
-INSERT INTO enderecos (complemento, bairro, rua, cep, numero, idcidade, idusuario) VALUES ('Apto 502', 'Centro', 'Rua Nova', '98765-432', '987', 5, 5);
 
 
 INSERT INTO marcas (nome) VALUES

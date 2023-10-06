@@ -1,4 +1,4 @@
-package br.csi.gg_store.service;
+package br.csi.gg_store.service.autenticacao;
 
 
 import br.csi.gg_store.model.usuario.Usuario;
