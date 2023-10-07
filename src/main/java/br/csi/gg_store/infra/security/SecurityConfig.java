@@ -27,10 +27,59 @@ public class SecurityConfig {
                 .csrf(crsf-> crsf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth->
-                        auth.requestMatchers(HttpMethod.POST,"/login").permitAll()
+                                auth.requestMatchers(HttpMethod.POST,"/login").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/cadastrar").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/usuario").hasAuthority("ROLE_ADMIN")
+
+                                .requestMatchers(HttpMethod.GET,"/usuario/{id}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/usuario").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                                .requestMatchers(HttpMethod.GET,"/usuario/todosUsuarios").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/usuario").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/usuario").hasAnyAuthority("ROLE_ADMIN")
+
+                                .requestMatchers(HttpMethod.GET,"/cidade").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/cidade/{id}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/cidade").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/cidade").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/cidade/{id}").hasAnyAuthority("ROLE_ADMIN")
+
+                                .requestMatchers(HttpMethod.GET,"/uf").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/uf/{id}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/uf").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/uf").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/uf/{id}").hasAnyAuthority("ROLE_ADMIN")
+
+                                .requestMatchers(HttpMethod.GET,"/endereco").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/endereco/{id}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/endereco").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/endereco").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/endereco/{id}").hasAnyAuthority("ROLE_ADMIN")
+
                                 .requestMatchers(HttpMethod.GET,"/produto").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/produto/{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/produto").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/produto").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/produto/{id}").hasAnyAuthority("ROLE_ADMIN")
+
+                                .requestMatchers(HttpMethod.GET,"/marca").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/marca/{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/marca").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/marca").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/marca/{id}").hasAnyAuthority("ROLE_ADMIN")
+
+                                .requestMatchers(HttpMethod.GET,"/categoria").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/categoria/{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/endereco").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/categoria").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/categoria/{id}").hasAnyAuthority("ROLE_ADMIN")
+
+                                .requestMatchers(HttpMethod.GET,"/carrinho").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/carrinho/{id}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/carrinho/adicionarProduto").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                                .requestMatchers(HttpMethod.DELETE,"/carrinho/removerProduto/{id}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/carrinho/removerProduto").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                                .requestMatchers(HttpMethod.PUT,"/carrinho").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/carrinho/{id}").hasAnyAuthority("ROLE_ADMIN")
+
                                 .anyRequest().authenticated())
                 .addFilterBefore(this.autenticacaoFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

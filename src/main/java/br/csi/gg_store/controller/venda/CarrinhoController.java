@@ -1,8 +1,13 @@
 package br.csi.gg_store.controller.venda;
 
+import br.csi.gg_store.infra.security.TokenServiceJWT;
+import br.csi.gg_store.model.usuario.DadosUsuario;
+import br.csi.gg_store.model.usuario.Usuario;
 import br.csi.gg_store.model.venda.carrinho.CarrinhoDTO;
 import br.csi.gg_store.model.venda.produto_carrinho.Produto_CarrinhoDTO;
+import br.csi.gg_store.service.usuario.UsuarioService;
 import br.csi.gg_store.service.venda.CarrinhoService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -15,33 +20,64 @@ import java.util.Set;
 public class CarrinhoController {
 
     private final CarrinhoService service;
-
-    public CarrinhoController(CarrinhoService service) {
-        this.service = service;
+    private UsuarioService usuarioService;
+    private TokenServiceJWT tokenService;
+    public CarrinhoController(CarrinhoService service, TokenServiceJWT tokenService, UsuarioService usuarioService){
+        this.service =service;
+        this.tokenService = tokenService;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping
-    public Set<CarrinhoDTO> findAll() {
-        return this.service.findAll();
+    public CarrinhoDTO findByUsuario(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
+        String login = tokenService.getSubject(token);
+
+        return this.service.findByUsuario(login);
     }
 
     @PostMapping("/adicionarProduto")
-    public ResponseEntity<String> adicionarProdutoAoCarrinho(@RequestBody @Valid Produto_CarrinhoDTO produtoCarrinhoDTO) {
+    public ResponseEntity<String> adicionarProdutoAoCarrinho(HttpServletRequest request, @RequestBody @Valid Produto_CarrinhoDTO produtoCarrinhoDTO) {
         if(produtoCarrinhoDTO.getQuantidade()<=0)
         {
             return ResponseEntity.ok("Quantidade do Produto deve ser maior que 0.");
         }
         else {
-            this.service.adicionarProdutoAoCarrinho(produtoCarrinhoDTO);
+            String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
+            String login = tokenService.getSubject(token);
+
+            this.service.adicionarProdutoAoCarrinho(produtoCarrinhoDTO, login);
             return ResponseEntity.ok("Produto adicionado ao carrinho com sucesso.");
         }
     }
 
     @DeleteMapping("/removerProduto")
     @Transactional
-    public ResponseEntity<String> removerProdutoDoCarrinho(@RequestBody @Valid Produto_CarrinhoDTO produtoCarrinhoDTO) {
-        this.service.removerProdutoDoCarrinho(produtoCarrinhoDTO);
-        return ResponseEntity.ok("Produto removido do carrinho com sucesso.");
+    public ResponseEntity<String> removerProdutoDoCarrinho(HttpServletRequest request, @RequestBody @Valid Produto_CarrinhoDTO produtoCarrinhoDTO) {
+        if(produtoCarrinhoDTO.getQuantidade()<=0)
+        {
+            return ResponseEntity.ok("Quantidade do Produto deve ser maior que 0.");
+        }
+        else {
+            String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
+            String login = tokenService.getSubject(token);
+
+            this.service.removerProdutoDoCarrinho(produtoCarrinhoDTO, login);
+            return ResponseEntity.ok("Produto removido do carrinho com sucesso.");
+        }
+    }
+    @DeleteMapping("/removerProduto/{id}")
+    @Transactional
+    public ResponseEntity<String> removerProdutoDoCarrinho(HttpServletRequest request, @RequestBody @Valid Produto_CarrinhoDTO produtoCarrinhoDTO, @PathVariable Long id) {
+        if(produtoCarrinhoDTO.getQuantidade()<=0)
+        {
+            return ResponseEntity.ok("Quantidade do Produto deve ser maior que 0.");
+        }
+        else {
+            DadosUsuario usuario = this.usuarioService.findUsuario(id);
+            this.service.removerProdutoDoCarrinho(produtoCarrinhoDTO, usuario.login());
+            return ResponseEntity.ok("Produto removido do carrinho com sucesso.");
+        }
     }
 
     @GetMapping("/{carrinhoId}")

@@ -51,7 +51,18 @@ public class UsuarioService {
     {
         Usuario usuario = this.repository.findByLogin(login);
 
+
+
         if(usuario !=null){ return usuario;}
+        else {return null;}
+    }
+    public DadosUsuario findByLoginDTO(String login)
+    {
+        Usuario usuario = this.repository.findByLogin(login);
+
+        DadosUsuario dadosUsuario= new DadosUsuario(usuario);
+
+        if(usuario !=null){ return dadosUsuario;}
         else {return null;}
     }
     public List<DadosUsuario> findAllUsuarios(){

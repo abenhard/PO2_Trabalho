@@ -1,5 +1,6 @@
 package br.csi.gg_store.controller.endereco;
 
+import br.csi.gg_store.infra.security.TokenServiceJWT;
 import br.csi.gg_store.model.endereco.Cidade;
 import br.csi.gg_store.model.endereco.Endereco;
 import br.csi.gg_store.model.endereco.EnderecoDTO;
@@ -19,7 +20,8 @@ import java.util.List;
 @RequestMapping("/endereco")
 public class EnderecoController {
     private final EnderecoService service;
-    public EnderecoController(EnderecoService service){this.service = service;}
+    private TokenServiceJWT tokenService;
+    public EnderecoController(EnderecoService service, TokenServiceJWT tokenService){this.service =service; this.tokenService = tokenService;}
 
     @PostMapping("/print-json")
     public void printJSon(@RequestBody String json){System.out.println(json);}

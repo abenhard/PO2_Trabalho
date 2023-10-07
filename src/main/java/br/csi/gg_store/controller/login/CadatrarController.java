@@ -24,7 +24,7 @@ public class CadatrarController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity salvar(@RequestBody @Valid Usuario usuario)
+    public ResponseEntity Cadastrar(@RequestBody @Valid Usuario usuario)
     {
 
             if(this.service.findByLogin(usuario.getLogin())!=null){

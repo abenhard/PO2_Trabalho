@@ -3,6 +3,8 @@ package br.csi.gg_store.service.venda;
 import br.csi.gg_store.infra.exceptions.CarrinhoNotFoundException;
 import br.csi.gg_store.infra.exceptions.ProdutoNotFoundException;
 import br.csi.gg_store.model.produto.*;
+import br.csi.gg_store.model.usuario.Usuario;
+import br.csi.gg_store.model.usuario.UsuarioRepository;
 import br.csi.gg_store.model.venda.carrinho.Carrinho;
 import br.csi.gg_store.model.venda.carrinho.CarrinhoDTO;
 import br.csi.gg_store.model.venda.carrinho.CarrinhoRepository;
@@ -23,15 +25,26 @@ import java.util.stream.Collectors;
 public class CarrinhoService {
 
     private final CarrinhoRepository repository;
+    private final UsuarioRepository usuarioRepository;
     private final Produto_CarrinhoRepository produtoCarrinhoRepository;
     private final ProdutoRepository produtoRepository;
 
-    public CarrinhoService(CarrinhoRepository repository, Produto_CarrinhoRepository produtoCarrinhoRepository, ProdutoRepository produtoRepository) {
+    public CarrinhoService(CarrinhoRepository repository, Produto_CarrinhoRepository produtoCarrinhoRepository, ProdutoRepository produtoRepository, UsuarioRepository usuarioRepository) {
         this.repository = repository;
         this.produtoCarrinhoRepository = produtoCarrinhoRepository;
         this.produtoRepository = produtoRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
+    public CarrinhoDTO findByUsuario(String login){
+
+        Usuario usuario = this.usuarioRepository.findByLogin(login);
+
+        Carrinho carrinho = this.repository.findCarrinhoByUsuarioCarrinho(usuario);
+
+        return convertToDto(carrinho);
+
+    }
     public Set<CarrinhoDTO> findAll() {
         List<Carrinho> carrinhos = this.repository.findAll();
         return carrinhos.stream()
@@ -40,23 +53,21 @@ public class CarrinhoService {
     }
 
     private CarrinhoDTO convertToDto(Carrinho carrinho) {
-        Set<ProdutoDTO> produtosDto = carrinho.getProdutosCarrinho().stream()
-                .map(produtoCarrinho -> {
-                    Produto produto = produtoCarrinho.getProduto();
+        Set<Produto_CarrinhoDTO> produtosDto = new HashSet<>();
 
-                    Set<String> categorias = new HashSet<>();
-                    Set<Categoria> categoriaSet = produto.getCategorias();
-                    for(Categoria categoria: categoriaSet)
-                    {
-                        categorias.add(categoria.getNome());
-                    }
+        for (Produto_Carrinho produtoCarrinho: carrinho.getProdutosCarrinho())
+        {
+            Produto_CarrinhoDTO produto_carrinhoDTO= new Produto_CarrinhoDTO();
 
-                    Marca marca = produto.getMarca();
-                    String nomeMarca = marca.getNome();
+            produto_carrinhoDTO.setIdCarrinho(produtoCarrinho.getCarrinho().getId());
+            produto_carrinhoDTO.setIdProduto(produtoCarrinho.getProduto().getId());
+             produto_carrinhoDTO.setNomeProduto(produtoCarrinho.getProduto().getNome());
+             produto_carrinhoDTO.setPrecoUnitario(produtoCarrinho.getProduto().getPrecoBase());
+             produto_carrinhoDTO.setQuantidade(produtoCarrinho.getQuantidade());
 
-                    return new ProdutoDTO(produto.getId(), produto.getNome(), produto.getDescricao(), produto.getPrecoBase(),categorias,nomeMarca);
-                })
-                .collect(Collectors.toSet());
+
+            produtosDto.add(produto_carrinhoDTO);
+        }
 
         return new CarrinhoDTO(carrinho.getUsuarioCarrinho().getNome(), carrinho.getId(), carrinho.getPrecoTotal(), produtosDto);
     }
@@ -68,22 +79,18 @@ public class CarrinhoService {
 
        Carrinho carrinho = this.repository.getReferenceById(id);
 
-       CarrinhoDTO carrinhoDTO  = convertToDto(carrinho);
-
-
-        return carrinhoDTO;
+        return convertToDto(carrinho);
     }
 
     public void excluir(Long id) {
         this.repository.deleteById(id);
     }
 
-    public void adicionarProdutoAoCarrinho(Produto_CarrinhoDTO produtoCarrinhoDTO) {
-        Carrinho carrinho = this.repository.findById(produtoCarrinhoDTO.getIdCarrinho())
-                .orElseThrow(() -> new CarrinhoNotFoundException("Carrinho não encontrado"));
+    public void adicionarProdutoAoCarrinho(Produto_CarrinhoDTO produtoCarrinhoDTO, String login) {
 
-        Produto produto = this.produtoRepository.findById(produtoCarrinhoDTO.getIdProduto())
-                .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
+        Carrinho carrinho = SetCarrinhoComLogin(login);
+
+        Produto produto = SetProduto(produtoCarrinhoDTO, carrinho);
 
         Produto_Carrinho produtoCarrinho = this.produtoCarrinhoRepository
                 .findProduto_CarrinhoByCarrinhoIdAndProdutoId(produtoCarrinhoDTO.getIdCarrinho(), produtoCarrinhoDTO.getIdProduto())
@@ -99,7 +106,7 @@ public class CarrinhoService {
 
         this.produtoCarrinhoRepository.save(produtoCarrinho);
 
-        // Atualizar o preço total do carrinho após adicionar um produto.
+
         BigDecimal precoTotal = carrinho.getProdutosCarrinho().stream()
                 .map(pc -> pc.getProduto().getPrecoBase().multiply(BigDecimal.valueOf(pc.getQuantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -108,12 +115,11 @@ public class CarrinhoService {
         this.repository.save(carrinho);
     }
     @Transactional
-    public void removerProdutoDoCarrinho(Produto_CarrinhoDTO produtoCarrinhoDTO) {
+    public void removerProdutoDoCarrinho(Produto_CarrinhoDTO produtoCarrinhoDTO, String login) {
         try {
-            Carrinho carrinho = this.repository.findById(produtoCarrinhoDTO.getIdCarrinho())
-                    .orElseThrow(() -> new CarrinhoNotFoundException("Carrinho não encontrado"));
-            Produto produto = this.produtoRepository.findById(produtoCarrinhoDTO.getIdProduto())
-                    .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
+            Carrinho carrinho = SetCarrinhoComLogin(login);
+            Produto produto = SetProduto(produtoCarrinhoDTO, carrinho);
+
             Produto_Carrinho produtoCarrinho = produtoCarrinhoRepository
                     .findProduto_CarrinhoByCarrinhoIdAndProdutoId(produtoCarrinhoDTO.getIdCarrinho(), produtoCarrinhoDTO.getIdProduto())
                     .orElseThrow(() -> new ProdutoNotFoundException("Produto no carrinho não encontrado"));
@@ -130,26 +136,42 @@ public class CarrinhoService {
             } else {
                 carrinho.getProdutosCarrinho().remove(produtoCarrinho);
                 produto.getProdutosCarrinho().remove(produtoCarrinho);
-                this.repository.save(carrinho);  // Update the carrinho to remove the produtoCarrinho reference
+                this.repository.save(carrinho);
                 this.produtoRepository.save(produto);
                 this.produtoCarrinhoRepository.delete(produtoCarrinho);
             }
 
-            // Update total price
-            carrinho.setPrecoTotal(calculateTotalPrice(carrinho));
+
+            carrinho.setPrecoTotal(calculaPricoTotal(carrinho));
 
 
         } catch (OptimisticLockException e) {
             e.printStackTrace();
-            // Handle the exception, log it, or perform necessary actions
+
         }
     }
 
-    private BigDecimal calculateTotalPrice(Carrinho carrinho) {
+    private BigDecimal calculaPricoTotal(Carrinho carrinho) {
         return carrinho.getProdutosCarrinho().stream()
                 .map(pc -> pc.getProduto().getPrecoBase().multiply(BigDecimal.valueOf(pc.getQuantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+    private Carrinho SetCarrinhoComLogin(String login)
+    {
+        Usuario usuario = this.usuarioRepository.findByLogin(login);
 
+        Carrinho carrinho = this.repository.findCarrinhoByUsuarioCarrinho(usuario);
+        if(carrinho ==null){ throw new CarrinhoNotFoundException("Carrinho não encontrado");}
+
+        return carrinho;
+    }
+    private Produto SetProduto(Produto_CarrinhoDTO produtoCarrinhoDTO, Carrinho carrinho){
+
+        produtoCarrinhoDTO.setIdCarrinho(carrinho.getId());
+        Produto produto = this.produtoRepository.findById(produtoCarrinhoDTO.getIdProduto())
+                .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
+
+        return produto;
+    }
 }
 
