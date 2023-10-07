@@ -58,27 +58,27 @@ INSERT INTO categorias (nome) VALUES
                                   ('Brinquedos'), ('Instrumentos Musicais'), ('Fotografia'), ('Eletrodomésticos'), ('Fitness'),
                                   ('Crianças e Bebês'), ('Papelaria'), ('Ferramentas'), ('Moda'), ('Acessórios');
 
-INSERT INTO produtos (nome, descricao, precobase, idmarca) VALUES
-            ('Nestle Chocolate', 'Barra de chocolate delicioso', 9.99, 1),
-            ('Samsung 4K Smart TV', 'Televisão inteligente com resolução 4K', 3499.99, 4),
-            ('Nike Air Max', 'Tênis esportivo para corrida', 299.99, 9),
-            ('Amazon Echo Dot', 'Assistente de voz inteligente com Alexa', 199.99, 7),
-            ('Coca-Cola Zero', 'Refrigerante sem açúcar', 5.49, 6),
-            ('Adidas Originals Hoodie', 'Moletom com capuz para estilo casual', 79.99, 10),
-            ('Toyota Camry', 'Carro sedan eficiente em combustível', 89999.99, 5),
-            ('Samsung Galaxy Buds Pro', 'Fones de ouvido sem fio com cancelamento de ruído', 249.99, 4),
-            ('L''Oréal Paris Shampoo', 'Shampoo para cabelos saudáveis', 14.99, 23),
-            ('Microsoft Surface Laptop', 'Laptop fino e leve para produtividade', 12999.99, 3),
-            ('McDonald''s Big Mac Combo', 'Combo de hambúrguer, batata frita e refrigerante', 9.99, 18),
-            ('Sony PlayStation 5', 'Console de videogame de última geração', 499.99, 8),
-            ('Honda Civic', 'Carro compacto e econômico', 21999.99, 20),
-            ('Apple AirPods Pro', 'Fones de ouvido sem fio com cancelamento de ruído', 249.99, 2),
-            ('Nestle Nescau', 'Chocolate em pó para bebidas quentes', 7.99, 1),
-            ('Samsung Galaxy Tab S7', 'Tablet Android com tela Super AMOLED', 649.99, 4),
-            ('Amazon Kindle Paperwhite', 'Leitor de e-books à prova d''água', 129.99, 7),
-            ('Nike Dri-FIT Camiseta', 'Camiseta esportiva para corrida', 34.99, 9),
-            ('Coca-Cola Classic', 'Refrigerante clássico com gás', 5.49, 6),
-            ('Apple Watch Series 7', 'Relógio inteligente com monitoramento de saúde', 399.99, 2);
+INSERT INTO produtos (nome, descricao, precobase, idmarca, disponibilidade) VALUES
+            ('Nestle Chocolate', 'Barra de chocolate delicioso', 9.99, 1,'disponivel'),
+            ('Samsung 4K Smart TV', 'Televisão inteligente com resolução 4K', 3499.99, 4,'disponivel'),
+            ('Nike Air Max', 'Tênis esportivo para corrida', 299.99, 9,'disponivel'),
+            ('Amazon Echo Dot', 'Assistente de voz inteligente com Alexa', 199.99, 7,'disponivel'),
+            ('Coca-Cola Zero', 'Refrigerante sem açúcar', 5.49, 6,'disponivel'),
+            ('Adidas Originals Hoodie', 'Moletom com capuz para estilo casual', 79.99, 10,'disponivel'),
+            ('Toyota Camry', 'Carro sedan eficiente em combustível', 89999.99, 5,'disponivel'),
+            ('Samsung Galaxy Buds Pro', 'Fones de ouvido sem fio com cancelamento de ruído', 249.99, 4,'disponivel'),
+            ('L''Oréal Paris Shampoo', 'Shampoo para cabelos saudáveis', 14.99, 23,'disponivel'),
+            ('Microsoft Surface Laptop', 'Laptop fino e leve para produtividade', 12999.99, 3,'disponivel'),
+            ('McDonald''s Big Mac Combo', 'Combo de hambúrguer, batata frita e refrigerante', 9.99, 18,'disponivel'),
+            ('Sony PlayStation 5', 'Console de videogame de última geração', 499.99, 8,'disponivel'),
+            ('Honda Civic', 'Carro compacto e econômico', 21999.99, 20,'disponivel'),
+            ('Apple AirPods Pro', 'Fones de ouvido sem fio com cancelamento de ruído', 249.99, 2,'disponivel'),
+            ('Nestle Nescau', 'Chocolate em pó para bebidas quentes', 7.99, 1,'disponivel'),
+            ('Samsung Galaxy Tab S7', 'Tablet Android com tela Super AMOLED', 649.99, 4,'disponivel'),
+            ('Amazon Kindle Paperwhite', 'Leitor de e-books à prova d''água', 129.99, 7,'disponivel'),
+            ('Nike Dri-FIT Camiseta', 'Camiseta esportiva para corrida', 34.99, 9,'disponivel'),
+            ('Coca-Cola Classic', 'Refrigerante clássico com gás', 5.49, 6,'disponivel'),
+            ('Apple Watch Series 7', 'Relógio inteligente com monitoramento de saúde', 399.99, 2,'disponivel');
 
 
 INSERT INTO produto_categoria (idproduto, idcategoria) VALUES

@@ -1,7 +1,7 @@
 package br.csi.gg_store.model.usuario;
 
-import br.csi.gg_store.model.venda.carrinho.Carrinho;
-import br.csi.gg_store.model.endereco.Endereco;
+import br.csi.gg_store.model.compra.carrinho.Carrinho;
+import br.csi.gg_store.model.usuario.endereco.Endereco;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

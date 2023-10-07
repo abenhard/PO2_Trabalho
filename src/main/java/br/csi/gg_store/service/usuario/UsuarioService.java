@@ -1,11 +1,11 @@
 package br.csi.gg_store.service.usuario;
 
-import br.csi.gg_store.model.endereco.EnderecoRepository;
+import br.csi.gg_store.model.usuario.endereco.EnderecoRepository;
 import br.csi.gg_store.model.usuario.DadosUsuario;
 import br.csi.gg_store.model.usuario.Usuario;
 import br.csi.gg_store.model.usuario.UsuarioRepository;
-import br.csi.gg_store.model.venda.carrinho.Carrinho;
-import br.csi.gg_store.model.venda.carrinho.CarrinhoRepository;
+import br.csi.gg_store.model.compra.carrinho.Carrinho;
+import br.csi.gg_store.model.compra.carrinho.CarrinhoRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

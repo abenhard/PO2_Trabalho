@@ -40,8 +40,8 @@ public class UsuarioController {
     @GetMapping
     public DadosUsuario findById(HttpServletRequest request){
         String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
-        String username = tokenService.getSubject(token);
-        DadosUsuario dadosUsuario = this.service.findByLoginDTO(username);
+        String login = tokenService.getSubject(token);
+        DadosUsuario dadosUsuario = this.service.findByLoginDTO(login);
 
         return dadosUsuario;
     }

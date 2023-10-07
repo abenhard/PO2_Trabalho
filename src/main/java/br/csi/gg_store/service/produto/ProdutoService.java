@@ -58,11 +58,23 @@ public class ProdutoService {
     {
         return this.repository.getProdutoByNome(nome);
     }
-    public void atualizar(Produto produto){
-        Produto produtoSalvar = this.repository.getReferenceById(produto.getId());
-        produtoSalvar.setNome(produto.getNome());
-        produtoSalvar.setDescricao(produto.getDescricao());
-        produtoSalvar.setPrecoBase(produto.getPrecoBase());
+    public void atualizar(ProdutoDTO produtoDTO){
+
+        Produto produtoSalvar = this.repository.getReferenceById(produtoDTO.getId());
+        produtoSalvar.setNome(produtoDTO.getNome());
+        produtoSalvar.setDescricao(produtoDTO.getDescricao());
+        produtoSalvar.setPrecoBase(produtoDTO.getPrecoBase());
+        produtoSalvar.setDisponibilidade(produtoDTO.getDisponibilidade());
+
+        Set<String> categoriasNome = produtoDTO.getCategorias();
+        Set<Categoria> categorias = new HashSet<>();
+
+        for(String categoria: categoriasNome)
+        {
+            categorias.add(this.categoriaService.getCategoriaPorNome(categoria));
+        }
+
+        produtoSalvar.setCategorias(categorias);
     }
     public void excluir(Long id){
         this.repository.deleteById(id);

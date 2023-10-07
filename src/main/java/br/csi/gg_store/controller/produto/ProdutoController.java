@@ -44,10 +44,10 @@ public class ProdutoController {
     }
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid Produto produto){
+    public ResponseEntity atualizar(@RequestBody @Valid ProdutoDTO produtoDTO){
         try {
-            this.service.atualizar(produto);
-            return ResponseEntity.ok().body(produto);
+            this.service.atualizar(produtoDTO);
+            return ResponseEntity.ok().body(produtoDTO);
         }
         catch (Exception e)
         {

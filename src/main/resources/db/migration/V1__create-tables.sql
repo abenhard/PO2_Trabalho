@@ -39,6 +39,7 @@ CREATE TABLE produtos(
     nome varchar(70) not null,
     descricao varchar(170) not null,
     precobase numeric(12,2) not null,
+    disponibilidade varchar(12) not null,
     idmarca integer not null,
     FOREIGN KEY (idmarca) REFERENCES marcas(id)
 );

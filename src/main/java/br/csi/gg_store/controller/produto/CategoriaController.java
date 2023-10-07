@@ -2,9 +2,6 @@ package br.csi.gg_store.controller.produto;
 
 
 import br.csi.gg_store.model.produto.Categoria;
-import br.csi.gg_store.model.produto.Marca;
-import br.csi.gg_store.model.usuario.Usuario;
-import br.csi.gg_store.service.endereco.EnderecoService;
 import br.csi.gg_store.service.produto.CategoriaService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
