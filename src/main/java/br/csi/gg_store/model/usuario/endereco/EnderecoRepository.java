@@ -15,4 +15,6 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
     public Optional<Endereco> findByCep(String cep);
     public List<Endereco> findByUsuario(Usuario usuario);
     public void deleteByUsuario(Usuario usuario);
+
+    public Endereco findByUsuarioAndId(Usuario usuario, Long id);
 }

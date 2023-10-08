@@ -13,6 +13,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/carrinho")
 public class CarrinhoController {
@@ -92,6 +94,11 @@ public class CarrinhoController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/todosCarrinhos")
+    public ResponseEntity<Set<CarrinhoDTO>> listarProdutosDoCarrinho() {
+
+        return ResponseEntity.ok().body(this.service.findAll());
     }
 }
 

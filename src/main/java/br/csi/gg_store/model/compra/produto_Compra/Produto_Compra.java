@@ -1,7 +1,7 @@
-package br.csi.gg_store.model.compra.produto_venda;
+package br.csi.gg_store.model.compra.produto_Compra;
 
 import br.csi.gg_store.model.produto.Produto;
-import br.csi.gg_store.model.compra.Venda;
+import br.csi.gg_store.model.compra.Compra;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name ="produto_venda")
+@Table(name ="produto_compra")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Produto_Venda {
+public class Produto_Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,8 +26,8 @@ public class Produto_Venda {
     private Produto produto;
 
     @ManyToOne
-    @JoinColumn(name = "idvenda")
-    private Venda venda;
+    @JoinColumn(name = "idcompra")
+    private Compra compra;
 
     @Column(name = "quantidade", nullable = false)
     @NotNull

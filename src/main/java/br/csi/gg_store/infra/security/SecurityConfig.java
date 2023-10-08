@@ -74,11 +74,15 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET,"/carrinho").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/carrinho/{id}").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/carrinho/todosCarrinhos").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.POST,"/carrinho/adicionarProduto").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                                 .requestMatchers(HttpMethod.DELETE,"/carrinho/removerProduto/{id}").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.DELETE,"/carrinho/removerProduto").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                                 .requestMatchers(HttpMethod.PUT,"/carrinho").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.DELETE,"/carrinho/{id}").hasAnyAuthority("ROLE_ADMIN")
+
+                                .requestMatchers(HttpMethod.GET,"/compra").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                                .requestMatchers(HttpMethod.POST,"/compra/{idEndereco}").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
 
                                 .anyRequest().authenticated())
                 .addFilterBefore(this.autenticacaoFilter, UsernamePasswordAuthenticationFilter.class)

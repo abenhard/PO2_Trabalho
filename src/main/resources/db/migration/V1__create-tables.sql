@@ -67,7 +67,7 @@ CREATE TABLE produto_carrinho(
     FOREIGN KEY (idcarrinho) REFERENCES carrinhos(id),
     FOREIGN KEY (idproduto) REFERENCES produtos(id)
 );
-CREATE TABLE vendas(
+CREATE TABLE compras(
     id serial not null primary key,
     idusuario INT NOT NULL,
     idendereco INT NOT NULL,
@@ -77,11 +77,11 @@ CREATE TABLE vendas(
     FOREIGN KEY (idusuario) REFERENCES usuarios(id),
     FOREIGN KEY (idendereco) REFERENCES enderecos(id)
 );
-CREATE TABLE produto_venda(
+CREATE TABLE produto_compra(
     id serial NOT NULL PRIMARY KEY ,
-    idvenda INT NOT NULL,
+    idcompra INT NOT NULL,
     idproduto INT NOT NULL,
     quantidade INT NOT NULL ,
-    FOREIGN KEY (idvenda) REFERENCES vendas(id),
+    FOREIGN KEY (idcompra) REFERENCES compras(id),
     FOREIGN KEY (idproduto) REFERENCES produtos(id)
 );

@@ -2,7 +2,7 @@ package br.csi.gg_store.model.compra;
 
 import br.csi.gg_store.model.usuario.endereco.Endereco;
 import br.csi.gg_store.model.usuario.Usuario;
-import br.csi.gg_store.model.compra.produto_venda.Produto_Venda;
+import br.csi.gg_store.model.compra.produto_Compra.Produto_Compra;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,12 +15,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name ="vendas")
+@Table(name ="compras")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Venda {
+public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,8 +28,9 @@ public class Venda {
     @Column(name="precototal")
     private BigDecimal precoTotal;
 
+    @Enumerated(EnumType.STRING)
     @Column(name= "status")
-    private String status;
+    private StatusCompra status;
 
     @OneToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "idusuario")
@@ -37,9 +38,9 @@ public class Venda {
 
     @OneToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "idendereco")
-    private Endereco enderecoVenda;
+    private Endereco enderecoCompra;
 
-    @OneToMany(mappedBy = "venda")
+    @OneToMany(mappedBy = "compra")
     @JsonIgnore
-    private Set<Produto_Venda> produtosVenda = new HashSet<>();
+    private Set<Produto_Compra> produtosCompra = new HashSet<>();
 }

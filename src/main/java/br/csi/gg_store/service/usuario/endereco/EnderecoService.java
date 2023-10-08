@@ -7,6 +7,7 @@ import br.csi.gg_store.model.usuario.endereco.EnderecoDTO;
 import br.csi.gg_store.model.usuario.endereco.EnderecoRepository;
 import br.csi.gg_store.model.usuario.endereco.UF;
 import br.csi.gg_store.service.usuario.UsuarioService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,44 +20,39 @@ public class EnderecoService {
     private final CidadeService cidadeService;
     private final UFService ufService;
 
-    public EnderecoService(EnderecoRepository repository, CidadeService cidadeService, UFService ufRepository, UsuarioService usuarioService){
+    public EnderecoService(EnderecoRepository repository, CidadeService cidadeService, UFService ufRepository, UsuarioService usuarioService) {
         this.repository = repository;
         this.cidadeService = cidadeService;
         this.ufService = ufRepository;
         this.usuarioService = usuarioService;
     }
 
-    public void cadastrar(EnderecoDTO enderecoDTO, String login)
-    {
-            Endereco endereco = new Endereco();
-            endereco.setRua(enderecoDTO.getRua());
-            endereco.setBairro(enderecoDTO.getBairro());
-            endereco.setComplemento(enderecoDTO.getComplemento());
-            endereco.setCep(enderecoDTO.getCep());
-            endereco.setNumero(enderecoDTO.getNumero());
+    public void cadastrar(EnderecoDTO enderecoDTO, String login) {
+        Endereco endereco = new Endereco();
+        endereco.setRua(enderecoDTO.getRua());
+        endereco.setBairro(enderecoDTO.getBairro());
+        endereco.setComplemento(enderecoDTO.getComplemento());
+        endereco.setCep(enderecoDTO.getCep());
+        endereco.setNumero(enderecoDTO.getNumero());
 
 
-            UF uf =  ufService.getUfPorNome(enderecoDTO.getUf());
-            endereco.setCidade(cidadeService.getOrCreateCidade(enderecoDTO.getCidade(), uf));
+        UF uf = ufService.getUfPorNome(enderecoDTO.getUf());
+        endereco.setCidade(cidadeService.getOrCreateCidade(enderecoDTO.getCidade(), uf));
 
-            Usuario usuario = usuarioService.findByLogin(login);
-            endereco.setUsuario(usuario);
+        Usuario usuario = usuarioService.findByLogin(login);
+        endereco.setUsuario(usuario);
 
-            this.repository.save(endereco);
+        this.repository.save(endereco);
 
     }
 
-    public List<EnderecoDTO> listar(String login){
+    public List<EnderecoDTO> listar(String login) {
         List<EnderecoDTO> enderecoDTOS = new ArrayList<>();
         List<Endereco> enderecos = this.repository.findByUsuario(this.usuarioService.findByLogin(login));
 
-        for(Endereco endereco: enderecos)
-        {
-            EnderecoDTO enderecoDTO = new EnderecoDTO(
-                    endereco.getRua(), endereco.getBairro(), endereco.getComplemento(),
-                    endereco.getCep(), endereco.getNumero(), endereco.getCidade().getNome()
-                    , endereco.getCidade().getUf().getNome()
-            );
+        for (Endereco endereco : enderecos) {
+
+            EnderecoDTO enderecoDTO = convertToEnderecoDTO(endereco);
 
             enderecoDTO.setLogin(login);
             enderecoDTO.setId(endereco.getId().toString());
@@ -67,10 +63,22 @@ public class EnderecoService {
         return enderecoDTOS;
     }
 
-    public Endereco findById(Long id){
+    public Endereco findById(Long id) {
         return this.repository.findById(id).get();
     }
-    public Endereco findByCep(String cep){ return this.repository.findByCep(cep).get();}
+
+    public Endereco findByCep(String cep) {
+        return this.repository.findByCep(cep).get();
+    }
+
+    public boolean findByUsuarioAndId(Usuario usuario, Long id) {
+        if (this.repository.findByUsuarioAndId(usuario, id) != null){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     public void atualizar(Endereco endereco){
        Endereco enderecoSalvar = this.repository.getReferenceById(endereco.getId());
         enderecoSalvar.setRua(endereco.getRua());
@@ -82,5 +90,14 @@ public class EnderecoService {
     public void excluir(Long id){
         this.repository.deleteById(id);
     }
-    public void excluirPorUsuario(Usuario usuario){this.repository.deleteByUsuario(usuario);}
+
+    public EnderecoDTO convertToEnderecoDTO(Endereco endereco)
+    {
+        EnderecoDTO enderecoDTO = new EnderecoDTO(
+                endereco.getRua(), endereco.getBairro(), endereco.getComplemento(),
+                endereco.getCep(), endereco.getNumero(), endereco.getCidade().getNome()
+                , endereco.getCidade().getUf().getNome());
+
+        return enderecoDTO;
+    }
 }
