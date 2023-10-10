@@ -38,17 +38,17 @@ public class UsuarioController {
         return ResponseEntity.created(uri).body(u);
     }
     @GetMapping
-    public DadosUsuario findById(HttpServletRequest request){
-        String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
+    public DadosUsuario getUsuario(HttpServletRequest request){
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
         String login = tokenService.getSubject(token);
         DadosUsuario dadosUsuario = this.service.findByLoginDTO(login);
 
         return dadosUsuario;
     }
     @GetMapping("/{id}")
-    public DadosUsuario findById(@PathVariable Long id){return this.service.findUsuario(id);}
+    public DadosUsuario getById(@PathVariable Long id){return this.service.findUsuario(id);}
     @GetMapping("/todosUsuarios")
-    public List<DadosUsuario> findAll(){
+    public List<DadosUsuario> getAll(){
         return this.service.findAllUsuarios();
     }
 
@@ -66,7 +66,7 @@ public class UsuarioController {
     }
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity deletar(@PathVariable Long id){
+    public ResponseEntity deletarUsuario(@PathVariable Long id){
         try {
             this.service.excluir(id);
             return ResponseEntity.ok().body("Usuario Deletado com Sucesso");

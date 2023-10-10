@@ -11,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class CompraDTO {
+    private Long id;
     private String nomeUsuario;
     private EnderecoDTO enderecoDTO;
     private StatusCompra statusCompra;

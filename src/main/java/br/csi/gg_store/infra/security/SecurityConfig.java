@@ -82,7 +82,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE,"/carrinho/{id}").hasAnyAuthority("ROLE_ADMIN")
 
                                 .requestMatchers(HttpMethod.GET,"/compra").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                                .requestMatchers(HttpMethod.GET,"/compra/todasCompras").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.POST,"/compra/{idEndereco}").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                                .requestMatchers(HttpMethod.PUT,"/compra/cancelarCompra/{idCompra}").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                                .requestMatchers(HttpMethod.PUT,"/compra//concluirCompra/{idCompra}").hasAnyAuthority("ROLE_ADMIN")
 
                                 .anyRequest().authenticated())
                 .addFilterBefore(this.autenticacaoFilter, UsernamePasswordAuthenticationFilter.class)

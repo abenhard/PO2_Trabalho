@@ -16,6 +16,8 @@ import br.csi.gg_store.service.usuario.endereco.EnderecoService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -42,6 +44,7 @@ public class CompraService {
        {
            CompraDTO compraDTO = new CompraDTO();
 
+           compraDTO.setId(compra.getId());
            compraDTO.setStatusCompra(compra.getStatus());
            compraDTO.setEnderecoDTO(this.enderecoService.convertToEnderecoDTO(compra.getEnderecoCompra()));
            compraDTO.setNomeUsuario(compra.getUsuarioVenda().getNome());
@@ -50,6 +53,18 @@ public class CompraService {
            compraDTOS.add(compraDTO);
        }
        return compraDTOS;
+    }
+    public Compra getCompraById(Long id)
+    {
+        return this.repository.getCompraById(id);
+    }
+    public Compra findCompraByUsuarioEId(Usuario usuario, Long id)
+    {
+        return this.repository.findCompraByUsuarioVendaAndId(usuario,id);
+    }
+    public List<Compra> findAllCompras()
+    {
+        return this.repository.findAll();
     }
     public void salvarCompra(Usuario usuario, Long idEndereco){
         Endereco endereco = this.enderecoService.findById(idEndereco);
@@ -75,9 +90,18 @@ public class CompraService {
             this.produtoCompraRepository.save(produtoCompra);
         }
 
+        Set<Produto_Carrinho> zeraCarrinho = new HashSet<>();
+        carrinho.setProdutosCarrinho(zeraCarrinho);
+
+        this.carrinhoRepository.save(carrinho);
+
         compra.setProdutosCompra(produtoCompraSet);
     }
-
+    public void mudarStatusCompra(Compra compra, StatusCompra statusCompra)
+    {
+        compra.setStatus(statusCompra);
+        this.repository.save(compra);
+    }
     public Set<Produto_CompraDTO> convertToProduto_CompraDTO(Set<Produto_Compra> produtoCompras)
     {
         Set<Produto_CompraDTO> produtoCompraDTOS = new HashSet<>();

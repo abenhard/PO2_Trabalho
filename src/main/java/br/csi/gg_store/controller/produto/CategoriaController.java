@@ -22,13 +22,13 @@ public class CategoriaController {
     public void printJSon(@RequestBody String json){System.out.println(json);}
 
     @GetMapping
-    public ResponseEntity<List<Categoria>> listar(){
+    public ResponseEntity<List<Categoria>> getCategorias(){
         return ResponseEntity.ok(this.service.listar());
     }
 
 
     @GetMapping("/{id}")
-    public Categoria getCategoria(@PathVariable Long id){ return this.service.findById(id);}
+    public Categoria getCategoriaById(@PathVariable Long id){ return this.service.findById(id);}
 
 
     @PostMapping

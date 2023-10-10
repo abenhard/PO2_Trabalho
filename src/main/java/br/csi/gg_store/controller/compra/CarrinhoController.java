@@ -29,8 +29,8 @@ public class CarrinhoController {
     }
 
     @GetMapping
-    public CarrinhoDTO findByUsuario(HttpServletRequest request) {
-        String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
+    public CarrinhoDTO findCarrinhoByUsuario(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
         String login = tokenService.getSubject(token);
 
         return this.service.findByUsuario(login);
@@ -47,7 +47,7 @@ public class CarrinhoController {
             return ResponseEntity.ok("O Produto está indisponivel no momento.");
         }
         else {
-            String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
+            String token = request.getHeader("Authorization").replace("Bearer ", "");
             String login = tokenService.getSubject(token);
 
             this.service.adicionarProdutoAoCarrinho(produtoCarrinhoDTO, login);
@@ -63,7 +63,7 @@ public class CarrinhoController {
             return ResponseEntity.ok("Quantidade do Produto deve ser maior que 0.");
         }
         else {
-            String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
+            String token = request.getHeader("Authorization").replace("Bearer ", "");
             String login = tokenService.getSubject(token);
 
             this.service.removerProdutoDoCarrinho(produtoCarrinhoDTO, login);
@@ -85,7 +85,7 @@ public class CarrinhoController {
     }
 
     @GetMapping("/{carrinhoId}")
-    public ResponseEntity<CarrinhoDTO> listarProdutosDoCarrinho(@PathVariable Long carrinhoId) {
+    public ResponseEntity<CarrinhoDTO> getCarrinhoById(@PathVariable Long carrinhoId) {
 
         CarrinhoDTO carrinhoDTO = this.service.findCarrinho(carrinhoId);
 
@@ -96,7 +96,7 @@ public class CarrinhoController {
         }
     }
     @GetMapping("/todosCarrinhos")
-    public ResponseEntity<Set<CarrinhoDTO>> listarProdutosDoCarrinho() {
+    public ResponseEntity<Set<CarrinhoDTO>> getCarrinhos() {
 
         return ResponseEntity.ok().body(this.service.findAll());
     }

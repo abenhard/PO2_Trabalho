@@ -4,6 +4,7 @@ package br.csi.gg_store.controller.compra;
 import br.csi.gg_store.infra.security.TokenServiceJWT;
 import br.csi.gg_store.model.compra.Compra;
 import br.csi.gg_store.model.compra.CompraDTO;
+import br.csi.gg_store.model.compra.StatusCompra;
 import br.csi.gg_store.model.usuario.Usuario;
 import br.csi.gg_store.service.compra.CarrinhoService;
 import br.csi.gg_store.service.compra.CompraService;
@@ -13,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -35,24 +38,28 @@ public class CompraController {
         this.tokenService = tokenService;
     }
     @GetMapping
-    public ResponseEntity<Set<CompraDTO>> adicionarProdutoAoCarrinho(HttpServletRequest request)
+    public ResponseEntity<Set<CompraDTO>> getCompra(HttpServletRequest request)
     {
-        String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
-        String login = tokenService.getSubject(token);
-
-        Usuario usuario = this.usuarioService.findByLogin(login);
+        Usuario usuario = getUsuario(request);
 
         Set<CompraDTO> compras = this.service.getCompraByUsuario(usuario);
 
         return ResponseEntity.ok(compras);
 
     }
-    @PostMapping("/{idEndereco}")
-    public ResponseEntity<String> adicionarProdutoAoCarrinho(HttpServletRequest request, @PathVariable Long idEndereco) {
-        String token = request.getHeader("Authorization").replace("Bearer ", ""); // Extract token from the request header
-        String login = tokenService.getSubject(token);
+    @GetMapping("/todasCompras")
+    public ResponseEntity<List<Compra>> getTodasCompras()
+    {
 
-        Usuario usuario = this.usuarioService.findByLogin(login);
+
+       List<Compra> compras = this.service.findAllCompras();
+
+        return ResponseEntity.ok(compras);
+
+    }
+    @PostMapping("/{idEndereco}")
+    public ResponseEntity<String> comprar(HttpServletRequest request, @PathVariable Long idEndereco) {
+        Usuario usuario = getUsuario(request);
 
         if(this.enderecoService.findByUsuarioAndId(usuario, idEndereco))
         {
@@ -64,5 +71,50 @@ public class CompraController {
             return ResponseEntity.badRequest().body("Endereço Não encontrado!");
         }
 
+    }
+    @PutMapping("cancelarCompra/{idCompra}")
+    public ResponseEntity<String> cancelarCompra(HttpServletRequest request, @PathVariable Long idCompra) {
+        Usuario usuario = getUsuario(request);
+
+        Compra compra = this.service.findCompraByUsuarioEId(usuario, idCompra);
+
+        if(compra == null)
+        {
+            return ResponseEntity.badRequest().body("Compra não encontrada!");
+        }
+        else if(compra.getStatus() == StatusCompra.concluida)
+        {
+            return ResponseEntity.badRequest().body("Compra já foi concluida!");
+        }
+        else{
+            this.service.mudarStatusCompra(compra, StatusCompra.cancelada);
+            return ResponseEntity.ok("Compra Cancelada com sucesso!");
+        }
+    }
+    @PutMapping("/concluirCompra/{idCompra}")
+    public ResponseEntity<String> concluirCompra(HttpServletRequest request, @PathVariable Long idCompra) {
+
+        Compra compra = this.service.getCompraById(idCompra);
+
+        if(compra == null)
+        {
+            return ResponseEntity.badRequest().body("Compra não encontrada!");
+        }
+        else if(compra.getStatus() == StatusCompra.cancelada)
+        {
+            return ResponseEntity.badRequest().body("Compra já foi cancelada!");
+        }
+        else{
+            this.service.mudarStatusCompra(compra, StatusCompra.concluida);
+            return ResponseEntity.ok("Compra Concluida com sucesso!");
+        }
+    }
+
+    private Usuario getUsuario(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String login = tokenService.getSubject(token);
+
+        Usuario usuario = this.usuarioService.findByLogin(login);
+        return usuario;
     }
 }

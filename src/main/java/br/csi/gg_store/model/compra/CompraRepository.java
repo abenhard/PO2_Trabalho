@@ -7,4 +7,7 @@ import java.util.Set;
 
 public interface CompraRepository extends JpaRepository<Compra, Long> {
     public Set<Compra> findCompraByUsuarioVenda(Usuario usuario);
+
+    public Compra getCompraById(Long id);
+    public Compra findCompraByUsuarioVendaAndId(Usuario usuario, Long id);
 }
