@@ -42,7 +42,7 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
-
+        System.out.println("Request Path: " + request.getRequestURI());
         filterChain.doFilter(request, response);
     }
     private String recuperarToken(HttpServletRequest request){
