@@ -38,7 +38,7 @@ public class Produto {
 
     @Enumerated(EnumType.STRING)
     @Column(name="disponibilidade")
-    private Disponibilidade disponibilidade;
+    private String disponibilidade;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idmarca")

@@ -18,7 +18,7 @@ public class ProdutoDTO{
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal precoBase;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Disponibilidade disponibilidade;
+    private String disponibilidade;
     private Set<String> categorias;
     private String marca;
 }

@@ -26,9 +26,9 @@ public class ProdutoService {
         produto.setNome(produtoDTO.getNome());
         produto.setDescricao(produtoDTO.getDescricao());
         produto.setPrecoBase(produtoDTO.getPrecoBase());
-
+        produto.setDisponibilidade("disponivel");
         Marca marca = marcaService.getMarcaPorNome(produtoDTO.getMarca());
-        produto.setDisponibilidade(Disponibilidade.disponivel);
+
         produto.setMarca(marca);
 
         Set<Categoria> categorias = new HashSet<>();
