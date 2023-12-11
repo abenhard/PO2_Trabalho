@@ -20,32 +20,33 @@ public class ProdutoService {
         this.categoriaService = categoriaService;
     }
 
-    public void cadastrar(List<ProdutoDTO> produtoDTOS)
-    {
-        for(ProdutoDTO produtoDTO: produtoDTOS) {
-            Produto produto = new Produto();
+    public void cadastrar(ProdutoDTO produtoDTO) {
+        Produto produto = new Produto();
 
-            produto.setNome(produtoDTO.getNome());
-            produto.setDescricao(produtoDTO.getDescricao());
-            produto.setPrecoBase(produtoDTO.getPrecoBase());
-            Marca marca = marcaService.getMarcaPorNome(produtoDTO.getMarca());
-            produto.setMarca(marca);
+        produto.setNome(produtoDTO.getNome());
+        produto.setDescricao(produtoDTO.getDescricao());
+        produto.setPrecoBase(produtoDTO.getPrecoBase());
 
-            Set<Categoria> categorias = new HashSet<>();
+        Marca marca = marcaService.getMarcaPorNome(produtoDTO.getMarca());
+        produto.setDisponibilidade(Disponibilidade.disponivel);
+        produto.setMarca(marca);
 
-            for (String categoria : produtoDTO.getCategorias()) {
-                categorias.add(categoriaService.getCategoriaPorNome(categoria));
-            }
-            for(Categoria categoria: categorias)
-            {
-                Set<Produto> produtos = categoria.getProdutos();
-                produtos.add(produto);
-            }
-            produto.setCategorias(categorias);
+        Set<Categoria> categorias = new HashSet<>();
 
-            this.repository.save(produto);
+        for (String categoria : produtoDTO.getCategorias()) {
+            categorias.add(categoriaService.getCategoriaPorNome(categoria));
         }
+
+        for (Categoria categoria : categorias) {
+            Set<Produto> produtos = categoria.getProdutos();
+            produtos.add(produto);
+        }
+
+        produto.setCategorias(categorias);
+
+        this.repository.save(produto);
     }
+
 
     public List<Produto> listar(){
         return this.repository.findAll();

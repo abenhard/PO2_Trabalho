@@ -33,11 +33,11 @@ public class ProdutoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity salvar(@RequestBody @Valid List<ProdutoDTO> produtos, UriComponentsBuilder uriBuilder)
+    public ResponseEntity salvar(@RequestBody @Valid ProdutoDTO produto, UriComponentsBuilder uriBuilder)
     {
-        this.service.cadastrar(produtos);
-        URI uri = uriBuilder.path("/produtos").buildAndExpand(produtos.get(0).getId()).toUri();
-        return ResponseEntity.created(uri).body(produtos);
+        this.service.cadastrar(produto);
+        URI uri = uriBuilder.path("/produtos").buildAndExpand(produto.getId()).toUri();
+        return ResponseEntity.created(uri).body(produto.getNome() + "cadastrado com sucesso");
     }
     @PutMapping
     @Transactional
