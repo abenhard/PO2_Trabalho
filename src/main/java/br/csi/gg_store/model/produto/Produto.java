@@ -35,8 +35,7 @@ public class Produto {
     @NotBlank
     @Column(name="precobase")
     private BigDecimal precoBase;
-
-    @Enumerated(EnumType.STRING)
+    
     @Column(name="disponibilidade")
     private String disponibilidade;
 
