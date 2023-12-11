@@ -35,7 +35,7 @@ public class Produto {
     @NotBlank
     @Column(name="precobase")
     private BigDecimal precoBase;
-    
+
     @Column(name="disponibilidade")
     private String disponibilidade;
 

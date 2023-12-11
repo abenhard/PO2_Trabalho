@@ -59,7 +59,7 @@ public class CarrinhoService {
         {
             Produto_CarrinhoDTO produto_carrinhoDTO= new Produto_CarrinhoDTO();
 
-           if(produtoCarrinho.getProduto().getDisponibilidade() == Disponibilidade.indisponivel)
+           if(produtoCarrinho.getProduto().getDisponibilidade() == Disponibilidade.indisponivel.toString())
            {
                carrinho.getProdutosCarrinho().remove(produtoCarrinho);
            }

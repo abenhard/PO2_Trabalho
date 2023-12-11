@@ -26,7 +26,7 @@ public class ProdutoService {
         produto.setNome(produtoDTO.getNome());
         produto.setDescricao(produtoDTO.getDescricao());
         produto.setPrecoBase(produtoDTO.getPrecoBase());
-        produto.setDisponibilidade("disponivel");
+        produto.setDisponibilidade(produto.getDisponibilidade());
         Marca marca = marcaService.getMarcaPorNome(produtoDTO.getMarca());
 
         produto.setMarca(marca);
@@ -41,9 +41,9 @@ public class ProdutoService {
             Set<Produto> produtos = categoria.getProdutos();
             produtos.add(produto);
         }
-
+        produto.setDisponibilidade(Disponibilidade.disponivel.toString());
         produto.setCategorias(categorias);
-
+        System.out.println("Disponibilidade" + produto.getDisponibilidade());
         this.repository.save(produto);
     }
 
